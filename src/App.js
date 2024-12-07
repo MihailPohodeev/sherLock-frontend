@@ -4,9 +4,10 @@ import Registration from './Registration';
 import Authorization from './Authorization';
 import EmailConfirm from './EmailConfirm';
 import EditProfile from './EditProfile';
+import MainPage from './MainPage';
 
 function App() {
-  const [currentState, setCurrentState] = useState(pageState.editprofile);
+  const [currentState, setCurrentState] = useState(pageState.mainpage);
 
   const togglePage = (state) => {
     setCurrentState(state);
@@ -56,6 +57,8 @@ function App() {
         (< EmailConfirm togglePage={togglePage} />)
         : currentState === pageState.editprofile ?
         (< EditProfile togglePage={togglePage} />)
+        : currentState === pageState.mainpage ?
+        (< MainPage togglePage={togglePage}/>)
         : null
       }
     </div>
