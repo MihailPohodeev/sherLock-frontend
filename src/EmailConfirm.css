@@ -1,0 +1,117 @@
+@font-face {
+    font-family: 'Google-Font'; /* Name of the font */
+    src: url('../public/OpenSans.ttf') format('truetype'); /* Path to the .ttf file */
+    font-weight: normal; /* You can specify the weight */
+    font-style: normal; /* You can specify the style */
+}
+
+.EmailConfirm
+{
+  width: 100%;
+  height: 100vh;
+  background-color: rgb(255, 219, 171);
+}
+
+.email-confirm-window
+{
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+#email-confirm-form
+{
+    margin-top: 150px;
+    min-width: 350px;
+    max-width: 600px;
+    width: 30%;
+    height: 350px;
+    background-color: white;
+    box-shadow: 20px 20px 25px rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+#email-confirm-text-block
+{
+    width: 80%;
+    height: 150px;
+    margin: 0 auto 0 auto;
+}
+
+#email-confirm-text
+{
+    font-size: 20px;
+    margin-left: 5px;
+    text-align: left;
+    font-family: 'Google-Font';
+}
+
+#email-confirm-input-field
+{
+    width: 80%;
+    height: 38px;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: rgb(9, 112, 86);
+    margin: 0 auto 0 auto;
+    outline: none;
+    border-width: 2px;
+}
+
+#email-confirm-input-field:focus
+{
+    border-width: 3px;
+}
+
+#email-confirm-buttons
+{
+    width: 80%;
+    height: 50px;
+    margin: 0 auto 0 auto;
+    display: flex;
+    flex-direction: row;
+}
+
+#email-confirm-buttons > button
+{
+    width: 48%;
+    height: 38px;
+    border-style: none;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+#email-confirm-back
+{
+    background-color: rgb(190, 190, 190);
+}
+
+#email-confirm-back:hover
+{
+    background-color: rgb(167, 167, 167);
+}
+
+#email-confirm-back:active
+{
+    background-color: rgb(224, 224, 224);
+}
+
+#email-confirm-confirm
+{
+    background-color: rgb(9, 112, 86);
+    color: white
+}
+
+#email-confirm-confirm:hover
+{
+    background-color: rgb(7, 97, 74);
+}
+
+#email-confirm-confirm:active
+{
+    background-color: rgb(54, 148, 124);
+}
