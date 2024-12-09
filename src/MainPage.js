@@ -33,17 +33,18 @@ function MainPage({ togglePage }) {
         <div id="MainPage">
             <header id="main-page-header">
                 <div id="main-page-header-container">
-                    <button id="main-page-filter-button">фильтр</button>
-                    <input id="main-page-searching" placeholder='поиск...'/>
+                    <p id="main-page-button-main">Главная</p>
+                    <p id="main-page-button-my-advs">Мои объявления</p>
+                    <p id="main-page-button-main-about">О нас</p>
                 </div>
                 <div id="main-page-avatar-container">
                     <img onClick={handleAvatarClick} ref={avatar} id="main-page-avatar" Alt="Avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbxcbt8ejR6RhFF5ysw97gpXm6yf0woiXAig&s"></img>
                 </div>
                 { showMenu && <div id="main-page-profile-menu" ref={menu}></div> }
             </header>
-            <main id="main-page-main">
-                < AdvertisementCreateForm />
-            </main>
+            <div id="main-page-main">
+                    < AdvertisementCreateForm />
+            </div>
         </div>
     );
 }

@@ -49,10 +49,10 @@ function AdvertisementCreateForm({ togglePage }) {
             <h2 id="advertisement-create-form-header">Создать объявление</h2>
             <label>тип объявления :</label>
             <div id="advertisement-create-form-type">
-                <ul id="advertisement-create-form-switch">
-                    <li id="advertisement-create-form-switch-loose" style={{backgroundColor: looseColor}} onClick={handleLooseButtonClick}>потеряно</li>
-                    <li id="advertisement-create-form-switch-found" style={{backgroundColor: foundColor}} onClick={handleFoundButtonClick}>найдено</li>
-                </ul>
+                <div id="advertisement-create-form-switch">
+                    <div id="advertisement-create-form-switch-loose" style={{backgroundColor: looseColor}} onClick={handleLooseButtonClick}>потеряно</div>
+                    <div id="advertisement-create-form-switch-found" style={{backgroundColor: foundColor}} onClick={handleFoundButtonClick}>найдено</div>
+                </div>
             </div>
             <label>тип пропажи :</label>
             <select id="advertisement-create-form-kind">

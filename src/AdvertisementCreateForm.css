@@ -9,6 +9,7 @@
 .AdvertisementCreateForm
 {
     width: 800px;
+    max-width: 95%;
     /* height: 800px; */
     background-color: whitesmoke;
     box-shadow: 20px 20px 25px rgba(0, 0, 0, 0.5);
@@ -19,6 +20,10 @@
     display: flex;
     flex-direction: column;
     font-family: 'YaFont';
+
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(9, 112, 86);;
     /* justify-content: center; */
     /* align-content: center; */
 }
@@ -89,6 +94,8 @@
     border-width: 2px;
     padding-left: 10px;
     padding-right: 10px;
+    font-family: 'YaFont';
+    font-size: 20px;
 }
 
 #advertisement-create-form-description
@@ -102,6 +109,8 @@
     border-color: rgb(9, 112, 86);
     border-width: 2px;
     padding: 10px;
+    font-family: 'YaFont';
+    font-size: 16px;
 }
 
 #advertisement-create-form-uploaded-photos
@@ -139,7 +148,7 @@
 
 #advertisement-create-form-upload-photo
 {
-    background-color: rgb(9, 112, 86);
+    background-image: linear-gradient(45deg, rgb(8, 95, 73), rgb(36, 201, 160));
     font-family: 'YaFont';
     color: white;
     cursor: pointer;
@@ -147,11 +156,12 @@
 
 #advertisement-create-form-upload-photo:hover
 {
-    background-color: rgb(6, 83, 64);
+    animation: hoverGradient 0.2s forwards;
 }
 
 #advertisement-create-form-upload-photo:active
 {
+    background-image: none;
     background-color: rgb(16, 175, 135);
 }
 
@@ -194,21 +204,44 @@
 
 #advertisement-create-form-save
 {
-    background-color: rgb(9, 112, 86);
+    background-image: linear-gradient(45deg, rgb(8, 95, 73), rgb(36, 201, 160));
     color: whitesmoke;
+    cursor: pointer;
+}
+
+#advertisement-create-form-save:hover
+{
+    animation: hoverGradient 0.2s forwards;
+}
+
+#advertisement-create-form-save:active
+{
+    background-image: none;
+    background-color: rgb(16, 175, 135);
 }
 
 #advertisement-create-form-remove-adv
 {
     background-color: rgb(136, 136, 136);
+    cursor: pointer;
 }
 
-@keyframes makeTransparent {
+#advertisement-create-form-remove-adv:hover
+{
+    background-color: rgb(112, 112, 112);
+}
+
+#advertisement-create-form-remove-adv:active
+{
+    background-color: rgb(202, 202, 202);
+}
+
+@keyframes hoverGradient {
     0% {
-        opacity: 1;
+        background-image: linear-gradient(45deg, rgb(8, 95, 73), rgb(36, 201, 160));
     }
     100% {
-        opacity: 0;
+        background-image: linear-gradient(45deg, rgb(40, 180, 145), rgb(12, 77, 60));
     }
 }
 

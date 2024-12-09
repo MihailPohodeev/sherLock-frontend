@@ -7,7 +7,7 @@ import EditProfile from './EditProfile';
 import MainPage from './MainPage';
 
 function App() {
-  const [currentState, setCurrentState] = useState(pageState.mainpage);
+  const [currentState, setCurrentState] = useState(pageState.login);
 
   const togglePage = (state) => {
     setCurrentState(state);

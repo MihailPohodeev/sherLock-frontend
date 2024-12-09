@@ -39,7 +39,7 @@ function Authorization({ togglePage }) {
       }
       const result = await response.json();
       localStorage.setItem('naxodka-token', result.token)
-      togglePage(pageState.editprofile)
+      togglePage(pageState.mainpage)
     } catch (error) {
       setErrorMessage(error.message);
       setPassword('');
