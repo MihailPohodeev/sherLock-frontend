@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './MainPage.css'
 import { pageState } from './pageState';
+import AdvertisementCreateForm from './AdvertisementCreateForm'
 
 function MainPage({ togglePage }) {
     const [showMenu, setShowMenu] = useState(false);
@@ -41,7 +42,7 @@ function MainPage({ togglePage }) {
                 { showMenu && <div id="main-page-profile-menu" ref={menu}></div> }
             </header>
             <main id="main-page-main">
-
+                < AdvertisementCreateForm />
             </main>
         </div>
     );
