@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { pageState } from './pageState';
 import './EmailConfirm.css';
+import config from './config';
 
 function EmailConfirm({ togglePage }) {
 
@@ -29,7 +30,7 @@ function EmailConfirm({ togglePage }) {
         throw new Error('Empty email in session store!')
     }
 
-    const url = 'http://87.117.38.106:2999/confirm_account';
+    const url = config.apiUrl + '/confirm_account';
     const data = {
       email: storedJsonObject.email,
       confirmation_code:  parseInt(code, 10), 

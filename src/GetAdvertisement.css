@@ -1,0 +1,54 @@
+@font-face {
+    font-family: 'YaFont'; /* Name of the font */
+    src: url('./YandexFont.ttf') format('truetype'); /* Path to the TTF file */
+    font-weight: normal; /* You can specify the weight */
+    font-style: normal; /* You can specify the style */
+}
+
+
+.GetAdvertisement {
+    width: 800px;
+    max-width: 95%;
+    background-color: whitesmoke;
+    box-shadow: 20px 20px 25px rgba(0, 0, 0, 0.5);
+    border-radius: 25px;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    font-family: 'YaFont';
+    border-style: solid;
+    border-width: 2px;
+    border-color: rgb(9, 112, 86);
+}
+
+#get-advertisement-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* Изменено на align-items для центрирования по горизонтали */
+}
+
+#get-advertisement-photos {
+    max-width: 95%; /* Убедитесь, что контейнер слайдера занимает всю ширину родителя */
+    overflow: hidden; /* Скрыть переполнение, если оно есть */
+    background-color: aquamarine;
+    display: flex;
+    flex-direction: row;
+}
+
+.get-advertisement-slider-image {
+    width: 100px; /* Изображение занимает всю ширину контейнера */
+    height: 100px; /* Высота автоматически подстраивается */
+    display: block; /* Убирает пробелы под изображением */
+}
+
+#get-advertisement-description
+{
+    margin-top: 50px;
+    padding: 25px;
+    width: 65%;
+    height: 200px;
+    background-color: rgb(216, 216, 216);
+}

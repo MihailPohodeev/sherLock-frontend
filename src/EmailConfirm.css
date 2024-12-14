@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Google-Font'; /* Name of the font */
-    src: url('../public/OpenSans.ttf') format('truetype'); /* Path to the .ttf file */
+    src: url('./YandexFont.ttf') format('truetype'); /* Path to the .ttf file */
     font-weight: normal; /* You can specify the weight */
     font-style: normal; /* You can specify the style */
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './MainPage.css'
 import { pageState } from './pageState';
 import AdvertisementCreateForm from './AdvertisementCreateForm'
+import GetAdvertisement from './GetAdvertisement';
 
 function MainPage({ togglePage }) {
     const [showMenu, setShowMenu] = useState(false);
@@ -43,7 +44,7 @@ function MainPage({ togglePage }) {
                 { showMenu && <div id="main-page-profile-menu" ref={menu}></div> }
             </header>
             <div id="main-page-main">
-                    < AdvertisementCreateForm />
+                    < GetAdvertisement togglePage={null} id={7}/>
             </div>
         </div>
     );

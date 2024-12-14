@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { pageState } from './pageState';
 import './Registration.css';
+import config from './config';
 
 function Registration({ togglePage }) {
   const pageState = {
@@ -58,7 +59,7 @@ function Registration({ togglePage }) {
       return;
     }
 
-    const url = 'http://87.117.38.106:2999/sign_up';
+    const url = config.apiUrl + '/sign_up';
     const data = {
       user: 	{
           surname: surname,

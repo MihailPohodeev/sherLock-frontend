@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Authorization.css';
 import { pageState } from './pageState';
+import config from './config';
 
 function Authorization({ togglePage }) {
 
@@ -16,7 +17,7 @@ function Authorization({ togglePage }) {
   const handleAuthorization = async (event) =>
   {
     event.preventDefault();
-    const url = 'http://87.117.38.106:2999/sign_in';
+    const url = config.apiUrl + '/sign_in';
     const data = {
       user: 	{
         email: email,
