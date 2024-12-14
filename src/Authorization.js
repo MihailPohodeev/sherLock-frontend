@@ -14,6 +14,15 @@ function Authorization({ togglePage }) {
     togglePage(pageState.registration);
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem('naxodka-token');
+    const user = localStorage.getItem('naxodka-user-data');
+    if (token !== null && user !== null)
+    {
+      togglePage(pageState.mainpage);
+    }
+  }, []);
+
   const handleAuthorization = async (event) =>
   {
     event.preventDefault();

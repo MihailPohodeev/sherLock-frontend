@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './MainPage.css'
-import { pageState } from './pageState';
+import { pageState, mainPageState } from './pageState';
 import AdvertisementCreateForm from './AdvertisementCreateForm'
 import GetAdvertisement from './GetAdvertisement';
 import MyAdvertisements from './MyAdvertisements';
@@ -8,6 +8,7 @@ import FilterPage from './FilterPage';
 
 function MainPage({ togglePage }) {
     const [showMenu, setShowMenu] = useState(false);
+    const [currentMainPage, setCurrentMainPage] = useState(mainPageState.filter);
 
     const handleAvatarClick = (event) =>
     {
@@ -31,23 +32,68 @@ function MainPage({ togglePage }) {
         };
     }, []);
 
+    const handleToFilter = () =>
+    {
+        setCurrentMainPage(mainPageState.filter);
+    }
+
+    const handleToMineAdvs = () =>
+    {
+        setCurrentMainPage(mainPageState.myAdvs);
+    }
+
+    const handleNewAdv = () =>
+    {
+        setCurrentMainPage(mainPageState.createAdv);
+    }
+
+    const handleSignOut = () =>
+    {
+        localStorage.removeItem('naxodka-token');
+        localStorage.removeItem('naxodka-user-data');
+        togglePage(pageState.login);
+    }
+
+    const handleEditProfile = () =>
+    {
+        togglePage(pageState.editprofile);
+    }
+
+    const profileMenu = () => {
+        return (
+            <div id="main-page-profile-menu" ref={menu}>
+                <div id='main-page-profile-container'>
+                    <button id='main-page-profile-edit-button' onClick={handleEditProfile}>редактировать профиль...</button>
+                    <button id='main-page-profile-sign-out-button' onClick={handleSignOut} >Выход...</button>
+                </div>
+                <div style={{height: '20px'}}></div>
+            </div>
+        );
+    };
 
     return (
         <div id="MainPage">
             <header id="main-page-header">
                 <div id="main-page-header-container">
-                    <p id="main-page-button-main">Главная</p>
-                    <p id="main-page-button-my-advs">Мои объявления</p>
-                    <p id="main-page-button-my-advs">Создать оъявление</p>
+                    <p id="main-page-button-main" onClick={handleToFilter}>Главная</p>
+                    <p id="main-page-button-my-advs" onClick={handleToMineAdvs}>Мои объявления</p>
+                    <p id="main-page-button-my-advs" onClick={handleNewAdv}>Создать оъявление</p>
                     <p id="main-page-button-main-about">О нас</p>
                 </div>
                 <div id="main-page-avatar-container">
                     <img onClick={handleAvatarClick} ref={avatar} id="main-page-avatar" Alt="Avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbxcbt8ejR6RhFF5ysw97gpXm6yf0woiXAig&s"></img>
                 </div>
-                { showMenu && <div id="main-page-profile-menu" ref={menu}></div> }
+                { showMenu ? profileMenu() : null} 
             </header>
             <div id="main-page-main">
-                    < FilterPage togglePage={null}/>
+                { currentMainPage === mainPageState.filter ?
+                (< FilterPage togglePage={togglePage} />)
+                : currentMainPage === mainPageState.myAdvs ?
+                (< MyAdvertisements togglePage={null}/>)
+                : currentMainPage === mainPageState.createAdv ?
+                (< AdvertisementCreateForm togglePage={null}/>)
+                : null
+                }
             </div>
         </div>
     );

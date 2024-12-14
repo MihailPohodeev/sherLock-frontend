@@ -34,7 +34,6 @@ function MyAdvertisements({ togglePage }) {
                 }
                 setAdvForms(Array.from({ length: advData.length }, (_, index) => {
                     const element = advData[index]; // Get the current element
-                    console.log(element.id, element.photo, element.title, element.description);
                     return (
                         <AdvForm 
                             key={element.id}
