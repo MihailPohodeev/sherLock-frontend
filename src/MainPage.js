@@ -3,6 +3,8 @@ import './MainPage.css'
 import { pageState } from './pageState';
 import AdvertisementCreateForm from './AdvertisementCreateForm'
 import GetAdvertisement from './GetAdvertisement';
+import MyAdvertisements from './MyAdvertisements';
+import FilterPage from './FilterPage';
 
 function MainPage({ togglePage }) {
     const [showMenu, setShowMenu] = useState(false);
@@ -36,6 +38,7 @@ function MainPage({ togglePage }) {
                 <div id="main-page-header-container">
                     <p id="main-page-button-main">Главная</p>
                     <p id="main-page-button-my-advs">Мои объявления</p>
+                    <p id="main-page-button-my-advs">Создать оъявление</p>
                     <p id="main-page-button-main-about">О нас</p>
                 </div>
                 <div id="main-page-avatar-container">
@@ -44,7 +47,7 @@ function MainPage({ togglePage }) {
                 { showMenu && <div id="main-page-profile-menu" ref={menu}></div> }
             </header>
             <div id="main-page-main">
-                    < GetAdvertisement togglePage={null} id={7}/>
+                    < FilterPage togglePage={null}/>
             </div>
         </div>
     );

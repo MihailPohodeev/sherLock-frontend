@@ -17,7 +17,7 @@ function Authorization({ togglePage }) {
   const handleAuthorization = async (event) =>
   {
     event.preventDefault();
-    const url = config.apiUrl + '/sign_in';
+    const url = config.apiUrl + '/users/login';
     const data = {
       user: 	{
         email: email,
@@ -40,6 +40,7 @@ function Authorization({ togglePage }) {
       }
       const result = await response.json();
       localStorage.setItem('naxodka-token', result.token)
+      localStorage.setItem('naxodka-user-data', JSON.stringify(result.user));
       togglePage(pageState.mainpage)
     } catch (error) {
       setErrorMessage(error.message);
@@ -52,6 +53,8 @@ function Authorization({ togglePage }) {
       <header className="authorization-window">
         <div id="authorization-container">
           <div id="authorization-shape">
+            <div id="authorization-logo"></div>
+            <h1 id="authorization-title-reg">Регистрация :</h1>
             <div id="authorization-shape-container">
               <input
                 id="authorization-email"
@@ -78,6 +81,7 @@ function Authorization({ togglePage }) {
                 onClick={handleToReg}
               >еще нет профиля?</button>
             </div>
+            <div style={{height: '50px'}}></div>
           </div>
         </div>
       </header>

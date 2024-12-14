@@ -59,7 +59,7 @@ function Registration({ togglePage }) {
       return;
     }
 
-    const url = config.apiUrl + '/sign_up';
+    const url = config.apiUrl + '/users';
     const data = {
       user: 	{
           surname: surname,
@@ -101,6 +101,8 @@ function Registration({ togglePage }) {
       <header className="registration-window">
         <div id="registration-container">
           <div id="registration-shape">
+            <div id='registration-shape-logo'></div>
+            <h1 id="registration-shape-title-reg">Регистрация :</h1>
             <div id="registration-shape-container">
               <input 
                 id="registration-surname"
@@ -154,8 +156,10 @@ function Registration({ togglePage }) {
                 <button id="registration-through-yandex">yandex</button>
               </div>
             </div>
+            <div style={{height: '50px'}}></div>
           </div>
         </div>
+        <div style={{height: '50px'}}></div>
       </header>
     </div>
   );

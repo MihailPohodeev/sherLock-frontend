@@ -30,7 +30,7 @@ function EmailConfirm({ togglePage }) {
         throw new Error('Empty email in session store!')
     }
 
-    const url = config.apiUrl + '/confirm_account';
+    const url = config.apiUrl + '/users/confirm';
     const data = {
       email: storedJsonObject.email,
       confirmation_code:  parseInt(code, 10), 
