@@ -14,6 +14,10 @@
     box-shadow: 20px 20px 25px rgba(0, 0, 0, 0.5);
     cursor: pointer;
     overflow: hidden;
+    user-select: none; /* Для современных браузеров */
+    -webkit-user-select: none; /* Для Safari */
+    -moz-user-select: none; /* Для Firefox */
+    -ms-user-select: none;
 }
 
 .AdvForm:hover
@@ -31,10 +35,12 @@
 
 .adv-form-image
 {
-    margin: 10% auto  auto;
+    margin: 10% auto 0 auto;
     width: 85%;
     height: 40%;
     background-color: aquamarine;
+    border-radius: 15px;
+    object-fit: cover; 
 }
 
 .adv-form-text-body

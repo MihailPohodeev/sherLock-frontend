@@ -29,6 +29,9 @@
   margin-top: 50px;
   box-shadow: 20px 20px 25px rgba(0, 0, 0, 0.5);
   border-radius: 25px;
+  border-width: 3px;
+  border-style: solid;
+  border-color: black;
 }
 
 #registration-shape-container

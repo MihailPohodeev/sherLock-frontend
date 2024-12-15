@@ -63,7 +63,15 @@ function AdvertisementCreateForm({ togglePage }) {
             }
         });
 
-        formData.append('user_id', 9);
+        const obj_user = localStorage.getItem('naxodka-user-data')
+        if (obj_user === null)
+        {
+            togglePage(pageState.login);
+            return;
+        }
+        const user = JSON.parse(obj_user);
+        const id = user.id;
+        formData.append('user_id', id);
 
         const url = config.apiUrl + '/advertisements'
         try {

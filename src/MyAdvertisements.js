@@ -7,13 +7,19 @@ import AdvForm from './AdvForm';
 function MyAdvertisements({ togglePage }) {
 
     const [advData, setAdvData] = useState([]);
-
     const [advForms, setAdvForms] = useState([]);
 
 
     useEffect(() => {
         const fetchData = async () => {
-            const user = JSON.parse(localStorage.getItem('naxodka-user-data'));
+            const obj_user = localStorage.getItem('naxodka-user-data')
+            if (obj_user === null)
+            {
+                togglePage(pageState.login);
+                return;
+            }
+            const user = JSON.parse(obj_user);
+            const id = user.id;
             const url = config.apiUrl + '/users/' + user.id + '/advertisements';
 
             try {
@@ -30,8 +36,13 @@ function MyAdvertisements({ togglePage }) {
                         description: element.advertisement.description,
                         photo: element.photos[0],
                     }
-                    setAdvData(advData.push(elem));
+                    if (advData.find(item => item.id == elem.id) == null)
+                    {
+                        setAdvData(advData.push(elem));
+                    }
                 }
+                console.log(advData);
+
                 setAdvForms(Array.from({ length: advData.length }, (_, index) => {
                     const element = advData[index]; // Get the current element
                     return (
