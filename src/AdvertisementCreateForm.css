@@ -48,27 +48,42 @@
 
 #advertisement-create-form-switch
 {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    width: 250px;
-    height: 30px;
-    background-color: rgb(204, 204, 204);
-    border-radius: 15px;
-    border-style: solid;
-    border-width: 2px;
-    border-color: black;
     display: flex;
     flex-direction: row;
+    width: 300px;
+    height: 40px;
     justify-content: space-evenly;
 }
 
-#advertisement-create-form-switch > li
+#advertisement-create-form-switch > div
 {
-    margin: auto 0 auto 0;
-    width: 50%;
-    height: 30px;
+    width: 35%;
+    height: 80%;
+    background-color: whitesmoke;
+    margin: auto 0px auto 0px;
+    border-radius: 15px;
+    border-color: black;
+    border-width: 3px;
+    border-style: solid;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    cursor: pointer;
+    user-select: none;
 }
+
+#advertisement-create-form-switch > div:hover
+{
+    background-color: rgb(194, 194, 194);
+}
+
+#advertisement-create-form-switch > div:active
+{
+    background-color: rgb(138, 138, 138);
+}
+
+
 
 #advertisement-create-form-kind
 {
@@ -111,6 +126,21 @@
     padding: 10px;
     font-family: 'YaFont';
     font-size: 16px;
+}
+
+#advertisement-create-form-location
+{
+    width: 75%;
+    height: 50px;
+    margin: 20px auto 0 auto;
+    border-style: solid;
+    border-radius: 15px;
+    border-color: black;
+    border-width: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: 'YaFont';
+    font-size: 20px;
 }
 
 #advertisement-create-form-uploaded-photos
@@ -234,6 +264,13 @@
 #advertisement-create-form-remove-adv:active
 {
     background-color: rgb(202, 202, 202);
+}
+
+#advertisement-create-form-error-message
+{
+    width: 80%;
+    height: 20px;
+    margin: 15px auto 0px auto;
 }
 
 @keyframes hoverGradient {

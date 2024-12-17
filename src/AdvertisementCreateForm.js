@@ -4,13 +4,16 @@ import { pageState } from './pageState';
 import config from './config';
 
 function AdvertisementCreateForm({ togglePage }) {
-    const [looseColor, setLooseColor] = useState('white');
-    const [foundColor, setFoundColor] = useState('transparent');
+    const [type, setType] = useState('');
+    const [foundColor, setFoundColor] = useState('whitesmoke');
+    const [looseColor, setLooseColor] = useState('whitesmoke');
     const fileInputRef = useRef(null);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [kind, setKind] = useState('advertisement-create-form-option1');
+    const [kind, setKind] = useState('none');
+    const [location, setLocation] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleButtonClick = () => {
         fileInputRef.current.click();
@@ -36,18 +39,52 @@ function AdvertisementCreateForm({ togglePage }) {
 
     const handleLooseButtonClick = () =>
     {
-        setLooseColor('red');
-        setFoundColor('transparent');
+        setType('утеряно');
+        setLooseColor('wheat');
+        setFoundColor('whitesmoke');
     }
 
     const handleFoundButtonClick = () =>
     {
-        setFoundColor('red');
-        setLooseColor('transparent');
+        setType('найдено');
+        setLooseColor('whitesmoke');
+        setFoundColor('wheat');
     }
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
+        setErrorMessage('');
+
+        if (type === '')
+        {
+            setErrorMessage('Укажите тип объявления!');
+            return;
+        }
+
+        if (kind === 'none')
+        {
+            setErrorMessage('Укажите тип пропажи!');
+            return;
+        }
+
+        if (title === '')
+        {
+            setErrorMessage('Поле "название" не может быть пустым!');
+            return;
+        }
+
+        if (description === '')
+        {
+            setErrorMessage('Поле "описание" не может быть пустым!');
+            return;
+        }
+
+        if (location === '')
+        {
+            setErrorMessage('Поле "местоположение" не может быть пустым!');
+            return;
+        }
 
         const formData = new FormData();
         formData.append('advertisement[title]', title);
@@ -98,21 +135,25 @@ function AdvertisementCreateForm({ togglePage }) {
             <label>тип объявления :</label>
             <div id="advertisement-create-form-type">
                 <div id="advertisement-create-form-switch">
-                    <div id="advertisement-create-form-switch-loose" style={{backgroundColor: looseColor}} onClick={handleLooseButtonClick}>потеряно</div>
-                    <div id="advertisement-create-form-switch-found" style={{backgroundColor: foundColor}} onClick={handleFoundButtonClick}>найдено</div>
+                    <div id="advertisement-create-form-switch-loose" onClick={handleLooseButtonClick} style={{backgroundColor: looseColor}}>утеряно</div>
+                    <div id="advertisement-create-form-switch-found" onClick={handleFoundButtonClick} style={{backgroundColor: foundColor}}>найдено</div>
                 </div>
             </div>
             <label>тип пропажи :</label>
             <select id="advertisement-create-form-kind" value={kind} onChange={(e) => setKind(e.target.value)}>
-                <option value="advertisement-create-form-option1">документы</option>
-                <option value="advertisement-create-form-option2">ключи</option>
-                <option value="advertisement-create-form-option3">финансы и банковские карты</option>
-                <option value="advertisement-create-form-option4">другое</option>
+                <option value="none">-</option>
+                <option value="documents">документы</option>
+                <option value="keys">ключи</option>
+                <option value="finance">финансы и банковские карты</option>
+                <option value="gadgets">электронные гаджеты</option>
+                <option value="miscellaneous">другое...</option>
             </select>
             <label>название : </label>
             <input id="advertisement-create-form-title" value={title} onChange={(e) => setTitle(e.target.value)}/>
             <label>описание : </label>
             <textarea id="advertisement-create-form-description" value={description} onChange={(e) => setDescription(e.target.value)}/>
+            <label>местоположение : </label>
+            <input id="advertisement-create-form-location" value={location} onChange={(e) => setLocation(e.target.value)}/>
             <label>фото : </label>
             <div id="advertisement-create-form-uploaded-photos">
                 {imagePreviews.map((imageSrc, index) => (
@@ -137,7 +178,9 @@ function AdvertisementCreateForm({ togglePage }) {
                     <button id="advertisement-create-form-remove-all-photos-button" onClick={handleRemovePhotosClick}>удалить все фото</button>
                 </div>
             </div>
-
+            {errorMessage !== '' && <div id="advertisement-create-form-error-message">
+                <p style={{color: 'red'}}>{errorMessage}</p>
+            </div>}
             <div id="advertisement-create-form-adv-buttons">
                 <button id="advertisement-create-form-save" onClick={handleSubmit}>создать объявление</button>
                 <button id="advertisement-create-form-remove-adv">отмена</button>
