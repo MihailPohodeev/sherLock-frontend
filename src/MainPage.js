@@ -9,6 +9,7 @@ import AboutUs from './AboutUs'
 
 function MainPage({ togglePage }) {
     const [showMenu, setShowMenu] = useState(false);
+    const [showMainMenu, setShowMainMenu] = useState(false);
     const [currentMainPage, setCurrentMainPage] = useState(mainPageState.filter);
     const [avatarURL, setAvatarURL] = useState('https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg');
 
@@ -47,16 +48,19 @@ function MainPage({ togglePage }) {
     const handleToFilter = () =>
     {
         setCurrentMainPage(mainPageState.filter);
+        setShowMainMenu(false);
     }
 
     const handleToMineAdvs = () =>
     {
         setCurrentMainPage(mainPageState.myAdvs);
+        setShowMainMenu(false);
     }
 
     const handleNewAdv = () =>
     {
         setCurrentMainPage(mainPageState.createAdv);
+        setShowMainMenu(false);
     }
 
     const handleSignOut = () =>
@@ -74,6 +78,12 @@ function MainPage({ togglePage }) {
     const handleAboutUs = () =>
     {
         setCurrentMainPage(mainPageState.about);
+        setShowMainMenu(false);
+    }
+
+    const handleShowMenu = () =>
+    {
+        setShowMainMenu(!showMainMenu);
     }
 
     const profileMenu = () => {
@@ -91,6 +101,14 @@ function MainPage({ togglePage }) {
     return (
         <div id="MainPage">
             <header id="main-page-header">
+                <div id="main-page-retrieve-menu" onClick={handleShowMenu}></div>
+                { showMainMenu && <div id="main-page-header-phone-container">
+                    <p id="main-page-button-phone-main" onClick={handleToFilter}>Главная</p>
+                    <p id="main-page-button-phone-my-advs" onClick={handleToMineAdvs}>Мои объявления</p>
+                    <p id="main-page-button-phone-my-advs" onClick={handleNewAdv}>Создать оъявление</p>
+                    <p id="main-page-button-phone-main-about" onClick={handleAboutUs}>О нас</p>
+                    <div style={{height: '10px'}}></div>
+                </div>}
                 <div id="main-page-header-container">
                     <p id="main-page-button-main" onClick={handleToFilter}>Главная</p>
                     <p id="main-page-button-my-advs" onClick={handleToMineAdvs}>Мои объявления</p>

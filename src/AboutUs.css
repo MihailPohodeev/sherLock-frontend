@@ -24,7 +24,7 @@
     font-family: 'YaFont';
     text-align: left;
     padding: 50px;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 10%;
+    padding-right: 10%;
     box-sizing: border-box;
 }
