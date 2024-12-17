@@ -30,11 +30,20 @@ function EmailConfirm({ togglePage }) {
         throw new Error('Empty email in session store!')
     }
 
+    const digitCode = parseInt(code, 10);
+    if (isNaN(digitCode))
+    {
+      setErrorMessage('Код должен являться 4-значным числом!');
+      return;
+    }
+
     const url = config.apiUrl + '/users/confirm';
     const data = {
       email: storedJsonObject.email,
-      confirmation_code:  parseInt(code, 10), 
+      confirmation_code:  digitCode,
     };
+
+    alert(JSON.stringify(data));
 
     try {
       const response = await fetch(url, {

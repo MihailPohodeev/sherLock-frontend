@@ -147,4 +147,13 @@
     margin: 0 auto 0 auto;
     min-width: 300px;
     width: 50%;
+    padding-left: 10px;
+}
+
+#edit-profile-surname
+{
+    margin: 0 auto 0 auto;
+    min-width: 300px;
+    width: 50%;
+    padding-left: 10px;
 }

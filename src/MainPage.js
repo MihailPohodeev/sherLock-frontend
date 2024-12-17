@@ -10,6 +10,7 @@ import AboutUs from './AboutUs'
 function MainPage({ togglePage }) {
     const [showMenu, setShowMenu] = useState(false);
     const [currentMainPage, setCurrentMainPage] = useState(mainPageState.filter);
+    const [avatarURL, setAvatarURL] = useState('https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg');
 
     const handleAvatarClick = (event) =>
     {
@@ -27,6 +28,16 @@ function MainPage({ togglePage }) {
     };
 
     useEffect(() => {
+        const user = localStorage.getItem('naxodka-user-data');
+        if (user !== null)
+        {
+            const usr = JSON.parse(user);
+            // alert(JSON.stringify(usr));
+            if (usr.avatar != null)
+            {
+                setAvatarURL(usr.avatar);
+            }
+        }
         document.addEventListener('click', handleClickOutsideMenu);
         return () => {
             document.removeEventListener('click', handleClickOutsideMenu);
@@ -87,7 +98,7 @@ function MainPage({ togglePage }) {
                     <p id="main-page-button-main-about" onClick={handleAboutUs}>О нас</p>
                 </div>
                 <div id="main-page-avatar-container">
-                    <img onClick={handleAvatarClick} ref={avatar} id="main-page-avatar" Alt="Avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQbxcbt8ejR6RhFF5ysw97gpXm6yf0woiXAig&s"></img>
+                    <img onClick={handleAvatarClick} ref={avatar} id="main-page-avatar" Alt="Avatar" src={avatarURL}></img>
                 </div>
                 { showMenu ? profileMenu() : null} 
             </header>
