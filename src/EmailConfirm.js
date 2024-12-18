@@ -43,8 +43,6 @@ function EmailConfirm({ togglePage }) {
       confirmation_code:  digitCode,
     };
 
-    alert(JSON.stringify(data));
-
     try {
       const response = await fetch(url, {
         method: 'POST',

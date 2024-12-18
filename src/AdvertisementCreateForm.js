@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './AdvertisementCreateForm.css'
-import { pageState } from './pageState';
+import { mainPageState, pageState } from './pageState';
 import config from './config';
 
 function AdvertisementCreateForm({ togglePage }) {
@@ -89,8 +89,10 @@ function AdvertisementCreateForm({ togglePage }) {
         const formData = new FormData();
         formData.append('advertisement[title]', title);
         formData.append('advertisement[description]', description);
-        //formData.append('advertisement[kind]', kind);
-        //formData.append('advertisement[type]', looseColor === 'red' ? 'lost' : 'found');
+        formData.append('advertisement[location]', location);
+        formData.append('advertisement[kind]', kind);
+        formData.append('advertisement[sort]', looseColor === 'red' ? 'lost' : 'found');
+        formData.append('advertisement[status]', 'active');
 
         // Append each image file to the FormData
         imagePreviews.forEach((imageSrc, index) => {
@@ -119,7 +121,7 @@ function AdvertisementCreateForm({ togglePage }) {
 
             if (response.ok) {
                 const result = await response.json();
-                alert('Advertisement created successfully:', result);
+                togglePage(mainPageState.myAdvs);
                 // Optionally, you can reset the form or navigate to another page
             } else {
                 alert('Error creating advertisement:', response.statusText);

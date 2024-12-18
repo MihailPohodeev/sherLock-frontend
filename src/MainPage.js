@@ -13,6 +13,7 @@ function MainPage({ togglePage }) {
     const [showMainMenu, setShowMainMenu] = useState(false);
     const [currentMainPage, setCurrentMainPage] = useState(mainPageState.filter);
     const [avatarURL, setAvatarURL] = useState('https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg');
+    const [advID, setAdvID] = useState(0);
 
     const handleAvatarClick = (event) =>
     {
@@ -103,17 +104,32 @@ function MainPage({ togglePage }) {
         setCurrentMainPage(state);
     };
 
+    const chooseAdv = (id) =>
+    {
+        setAdvID(id);
+        setCurrentMainPage(mainPageState.getAdv);
+    }
+
     return (
         <div id="MainPage">
+             <div id="main-page-main">
+                { currentMainPage === mainPageState.filter ?
+                (< FilterPage togglePage={toggleMainPage} actionFunction={chooseAdv}/>)
+                : currentMainPage === mainPageState.myAdvs ?
+                (< MyAdvertisements togglePage={toggleMainPage}/>)
+                : currentMainPage === mainPageState.createAdv ?
+                (< AdvertisementCreateForm togglePage={toggleMainPage}/>)
+                : currentMainPage === mainPageState.about ?
+                (< AboutUs />)
+                : currentMainPage === mainPageState.editAdv ?
+                (< EditAdvertisement togglePage={toggleMainPage} />)
+                : currentMainPage === mainPageState.getAdv ?
+                (< GetAdvertisement togglePage={toggleMainPage} id={advID}/>)
+                : null
+                }
+            </div>
             <header id="main-page-header">
                 <div id="main-page-retrieve-menu" onClick={handleShowMenu}></div>
-                { showMainMenu && <div id="main-page-header-phone-container">
-                    <p id="main-page-button-phone-main" onClick={handleToFilter}>Главная</p>
-                    <p id="main-page-button-phone-my-advs" onClick={handleToMineAdvs}>Мои объявления</p>
-                    <p id="main-page-button-phone-my-advs" onClick={handleNewAdv}>Создать оъявление</p>
-                    <p id="main-page-button-phone-main-about" onClick={handleAboutUs}>О нас</p>
-                    <div style={{height: '10px'}}></div>
-                </div>}
                 <div id="main-page-header-container">
                     <p id="main-page-button-main" onClick={handleToFilter}>Главная</p>
                     <p id="main-page-button-my-advs" onClick={handleToMineAdvs}>Мои объявления</p>
@@ -123,22 +139,18 @@ function MainPage({ togglePage }) {
                 <div id="main-page-avatar-container">
                     <img onClick={handleAvatarClick} ref={avatar} id="main-page-avatar" Alt="Avatar" src={avatarURL}></img>
                 </div>
-                { showMenu ? profileMenu() : null} 
             </header>
-            <div id="main-page-main">
-                { currentMainPage === mainPageState.filter ?
-                (< FilterPage togglePage={toggleMainPage} />)
-                : currentMainPage === mainPageState.myAdvs ?
-                (< MyAdvertisements togglePage={toggleMainPage}/>)
-                : currentMainPage === mainPageState.createAdv ?
-                (< AdvertisementCreateForm togglePage={toggleMainPage}/>)
-                : currentMainPage === mainPageState.about ?
-                (< AboutUs />)
-                : currentMainPage === mainPageState.editAdv ?
-                (< EditAdvertisement togglePage={toggleMainPage} />)
-                : null
-                }
+            <div id="main-page-bikini-bottom">
+                <p>2024. Все права незащищены</p>
             </div>
+            { showMainMenu && <div id="main-page-header-phone-container">
+                    <p id="main-page-button-phone-main" onClick={handleToFilter}>Главная</p>
+                    <p id="main-page-button-phone-my-advs" onClick={handleToMineAdvs}>Мои объявления</p>
+                    <p id="main-page-button-phone-my-advs" onClick={handleNewAdv}>Создать оъявление</p>
+                    <p id="main-page-button-phone-main-about" onClick={handleAboutUs}>О нас</p>
+                    <div style={{height: '10px'}}></div>
+                </div>}
+            { showMenu ? profileMenu() : null} 
         </div>
     );
 }

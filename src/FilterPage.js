@@ -4,7 +4,7 @@ import { pageState } from './pageState';
 import config from './config';
 import AdvForm from './AdvForm';
 
-function FilterPage({ togglePage }) {
+function FilterPage({ togglePage, actionFunction }) {
     const [advData, setAdvData] = useState([]);
     const [advForms, setAdvForms] = useState([]);
 
@@ -16,11 +16,9 @@ function FilterPage({ togglePage }) {
             try {
                 const response = await fetch(url);
                 if (!response.ok) {
-                    alert(JSON.stringify(response.json()));
                     throw new Error('Network response was not ok');
                 }
                 const result = await response.json();
-                alert(JSON.stringify(result));
                 for (const element of result) {
                     const elem = {
                         id: element.advertisement.id,
@@ -28,7 +26,7 @@ function FilterPage({ togglePage }) {
                         description: element.advertisement.description,
                         photo: element.photos[0],
                     }
-                    if (advData.find(item => item.id == elem.id) == null)
+                    if (advData.find(item => item.id === elem.id) == null)
                     {
                         setAdvData(advData.push(elem));
                     }
@@ -44,7 +42,7 @@ function FilterPage({ togglePage }) {
                             photoUrl={element.photo} 
                             title={element.title} 
                             description={element.description} 
-                            actionFunction={() => alert(element.id)}
+                            actionFunction={() => actionFunction(element.id)}
                         />
                     );
                 }));

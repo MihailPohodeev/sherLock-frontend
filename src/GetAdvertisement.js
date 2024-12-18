@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { pageState } from './pageState';
+import { mainPageState, pageState } from './pageState';
 import './GetAdvertisement.css'
 import config from './config';
 import { Slide } from 'react-slideshow-image';
@@ -9,6 +9,8 @@ function GetAdvertisement({ togglePage, id }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [kind, setKind] = useState('');
+    const [status, setStatus] = useState('');
+    const [location, setLocation] = useState('');
 
     const photos = [
         {
@@ -33,6 +35,9 @@ function GetAdvertisement({ togglePage, id }) {
                 const result = await response.json();
                 setTitle(result.advertisement.title);
                 setDescription(result.advertisement.description);
+                setKind(result.advertisement.kind);
+                setStatus(result.advertisement.status);
+                setLocation(result.advertisement.location);
                 // alert(JSON.stringify(result));
               } catch (error) {
                 alert('ERROR url : ' + url);
@@ -60,10 +65,11 @@ function GetAdvertisement({ togglePage, id }) {
     return (
         <div className="GetAdvertisement">
             <div id="get-advertisement-container">
+                <h4>статус : {status} <br/> тип : {kind}</h4>
                 <h1 id="get-advertisement-title">{title}</h1>
-                <h3 id="get-advertisement-kind">Тип : {kind}</h3>
+                <h2>местоположение : {location}</h2>
                 <div id="get-advertisement-photos">
-                <Slide>
+                {/* <Slide>
                     {photos.map((slideImage, index)=> (
                         <div key={index}>
                             <div style={{ ...divStyle, 'backgroundColor': 'black' }}>
@@ -71,12 +77,15 @@ function GetAdvertisement({ togglePage, id }) {
                             </div>
                         </div>
                 ))} 
-                </Slide>
+                </Slide> */}
                 </div>
                 <div id="get-advertisement-description">
                     <p>{description}</p>
                 </div>
             </div>
+            <div id='get-advertisement-back-button' onClick={() => togglePage(mainPageState.filter)}></div>
+            <button id="get-advertisement-connect-button">связаться с продавцом</button>
+            <div style={{height: '50px'}}></div>
         </div>
     );
 }

@@ -24,6 +24,7 @@
     flex-direction: row;
     justify-content: center;
     position: fixed;
+    top: 100px;
 }
 
 #main-page-header-container
@@ -178,6 +179,17 @@
     visibility: hidden;
 }
 
+#main-page-bikini-bottom
+{
+    height: 100px;
+    width: 100%;
+    background-image: linear-gradient(90deg, rgb(17, 17, 17), rgb(107, 107, 107));
+    color: white;
+    text-align: center;
+    align-content: center;
+    margin-top: 100px;
+}
+
 @keyframes upscale {
     0% {
         transform: scale(1);
@@ -213,7 +225,7 @@
     #main-page-header-phone-container
     {
         visibility: visible;
-        position: absolute;
+        position: fixed;
         top: 100px;
         width: 100%;
         background-image: linear-gradient(90deg, rgb(17, 17, 17), rgb(107, 107, 107));
