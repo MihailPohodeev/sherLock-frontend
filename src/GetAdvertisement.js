@@ -25,7 +25,6 @@ function GetAdvertisement({ togglePage, id }) {
     useEffect(() => {
         const fetchData = async () => {
             const url = config.apiUrl + '/advertisements/' + id;
-
             try {
                 const response = await fetch(url);
                 if (!response.ok) {

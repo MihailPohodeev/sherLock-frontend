@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { pageState } from './pageState';
+import { mainPageState, pageState } from './pageState';
 import './MyAdvertisements.css'
 import config from './config';
 import AdvForm from './AdvForm';
@@ -9,6 +9,24 @@ function MyAdvertisements({ togglePage }) {
     const [advData, setAdvData] = useState([]);
     const [advForms, setAdvForms] = useState([]);
 
+    const handleAdvClick = async (id) =>
+    {
+        const url = config.apiUrl + '/advertisements/' + id;
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) {
+              throw new Error('Network response was not ok');
+            }
+            const result = await response.json();
+            alert(JSON.stringify(result));
+            sessionStorage.setItem('naxodka-current-adv', JSON.stringify(result));
+        } catch (error) {
+            alert('ERROR url : ' + url);
+        }
+
+        togglePage(mainPageState.editAdv);
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,6 +70,7 @@ function MyAdvertisements({ togglePage }) {
                             photoUrl={element.photo} 
                             title={element.title} 
                             description={element.description} 
+                            actionFunction={() => handleAdvClick(element.id)}
                         />
                     );
                 }));

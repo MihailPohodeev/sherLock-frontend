@@ -5,6 +5,7 @@ import AdvertisementCreateForm from './AdvertisementCreateForm'
 import GetAdvertisement from './GetAdvertisement';
 import MyAdvertisements from './MyAdvertisements';
 import FilterPage from './FilterPage';
+import EditAdvertisement from './EditAdvertisement';
 import AboutUs from './AboutUs'
 
 function MainPage({ togglePage }) {
@@ -98,6 +99,10 @@ function MainPage({ togglePage }) {
         );
     };
 
+    const toggleMainPage = (state) => {
+        setCurrentMainPage(state);
+    };
+
     return (
         <div id="MainPage">
             <header id="main-page-header">
@@ -122,13 +127,15 @@ function MainPage({ togglePage }) {
             </header>
             <div id="main-page-main">
                 { currentMainPage === mainPageState.filter ?
-                (< FilterPage togglePage={togglePage} />)
+                (< FilterPage togglePage={toggleMainPage} />)
                 : currentMainPage === mainPageState.myAdvs ?
-                (< MyAdvertisements togglePage={togglePage}/>)
+                (< MyAdvertisements togglePage={toggleMainPage}/>)
                 : currentMainPage === mainPageState.createAdv ?
-                (< AdvertisementCreateForm togglePage={togglePage}/>)
+                (< AdvertisementCreateForm togglePage={toggleMainPage}/>)
                 : currentMainPage === mainPageState.about ?
                 (< AboutUs />)
+                : currentMainPage === mainPageState.editAdv ?
+                (< EditAdvertisement togglePage={toggleMainPage} />)
                 : null
                 }
             </div>

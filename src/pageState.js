@@ -11,4 +11,5 @@ export const mainPageState = {
   myAdvs: 'myAdvs',
   createAdv: 'createAdv',
   about: 'about',
+  editAdv: 'editAdv',
 }

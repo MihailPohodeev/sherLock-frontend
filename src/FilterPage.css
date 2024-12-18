@@ -79,3 +79,11 @@
     font-weight: bold;
     color: black;
 }
+
+#filter-page-advs
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
