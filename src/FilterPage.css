@@ -131,3 +131,96 @@
     flex-direction: row;
     justify-content: space-evenly;
 }
+
+#filter-page-filter-menu
+{
+    position: absolute;
+    top: 300px;
+    background-color: white;
+    width: 300px;
+    border-radius: 15px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    box-shadow: 20px 20px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+}
+
+#filter-page-filter-menu > label
+{
+    margin-top: 10px;
+}
+
+#filter-page-filter-menu-type-container
+{
+    width: 75%;
+    height: 30px;
+    margin: 10px auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#filter-page-filter-menu-type-container > div
+{
+    background-color: whitesmoke;
+    width: 35%;
+    height: 80%;
+    border-radius: 15px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    align-content: center;
+    text-align: center;
+    user-select: none;
+    cursor: pointer;
+}
+
+#filter-page-filter-menu-kind-container
+{
+    width: 75%;
+    height: 40px;
+    margin: 10px auto 0 auto;
+    display: flex;
+}
+
+#filter-page-filter-menu-kind
+{
+    width: 85%;
+    height: 70%;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+    border-radius: 15px;
+    margin: auto;
+}
+
+#filter-page-filter-menu-filter-button
+{
+    width: 63%;
+    height: 30px;
+    border-radius: 15px;
+    border-style: none;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+}
+
+#filter-page-filter-menu-filter-button:hover
+{
+    background-color: rgb(22, 22, 22);
+}
+
+#filter-page-filter-menu-filter-button:active
+{
+    background-color: rgb(55, 55, 55);
+}
+
+@media (max-width: 600px)
+{
+    #filter-page-filter-menu
+    {
+        width: 94%;
+    }
+}

@@ -121,7 +121,7 @@
 
 #main-page-profile-menu
 {
-    position: absolute;
+    position: fixed;
     top: 100px;
     right: 0px;
     width: 500px;

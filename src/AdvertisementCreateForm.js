@@ -91,7 +91,7 @@ function AdvertisementCreateForm({ togglePage }) {
         formData.append('advertisement[description]', description);
         formData.append('advertisement[location]', location);
         formData.append('advertisement[kind]', kind);
-        formData.append('advertisement[sort]', looseColor === 'red' ? 'lost' : 'found');
+        formData.append('advertisement[sort]', type);
         formData.append('advertisement[status]', 'active');
 
         // Append each image file to the FormData
@@ -144,11 +144,11 @@ function AdvertisementCreateForm({ togglePage }) {
             <label>тип пропажи :</label>
             <select id="advertisement-create-form-kind" value={kind} onChange={(e) => setKind(e.target.value)}>
                 <option value="none">-</option>
-                <option value="documents">документы</option>
-                <option value="keys">ключи</option>
-                <option value="finance">финансы и банковские карты</option>
-                <option value="gadgets">электронные гаджеты</option>
-                <option value="miscellaneous">другое...</option>
+                <option value="документы">документы</option>
+                <option value="ключи">ключи</option>
+                <option value="финансы">финансы и банковские карты</option>
+                <option value="гаджеты">электронные гаджеты</option>
+                <option value="другое">другое...</option>
             </select>
             <label>название : </label>
             <input id="advertisement-create-form-title" value={title} onChange={(e) => setTitle(e.target.value)}/>
