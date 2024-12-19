@@ -38,7 +38,7 @@
 {
     width: 100px;
     height: 56px;
-    margin: auto 0 auto 0;
+    margin: auto 10px auto 10px;
     border-radius: 15px;
     border-style: none;
     background-image: linear-gradient(200deg, rgb(116, 116, 116), rgb(0, 0, 0));
@@ -58,8 +58,8 @@
 
 #filter-page-search
 {
-    width: 50%;
     height: 50px;
+    width: 80%;
     margin: auto 0 auto 0;
     border-radius: 15px;
     border-style: solid;
@@ -71,6 +71,50 @@
     font-weight: bold;
     color: black;
 }
+
+#filter-page-search-container
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: 70%;
+}
+
+#filter-page-search-button
+{
+    height: 56px;
+    min-width: 56px;
+    max-width: 56px;
+    margin: auto 10px auto 10px;
+    background-image: linear-gradient(200deg, rgb(116, 116, 116), rgb(0, 0, 0));
+    border-style: none;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#filter-page-search-button:hover
+{
+    background-image: linear-gradient(200deg, rgb(0, 0, 0), rgb(116, 116, 116));
+}
+
+#filter-page-search-button:active
+{
+    background-image: linear-gradient(200deg, rgb(0, 0, 0), rgb(116, 95, 95));
+}
+
+#filter-page-search-button > div
+{
+    margin: auto;
+    width: 50%;
+    height: 50%;
+    background-image: url('./loupe.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 
 #filter-page-search::placeholder
 {

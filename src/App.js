@@ -17,6 +17,10 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    document.title = "Sher-Lock"; // Set the new title
+  }, []); 
+
   // useEffect(() =>
   // {
   //   const fetchData = async() => {

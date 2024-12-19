@@ -2,7 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { mainPageState, pageState } from './pageState';
 import './GetAdvertisement.css'
 import config from './config';
-import { Slide } from 'react-slideshow-image';
+import "slick-carousel/slick/slick.css"; 
+import "slick-carousel/slick/slick-theme.css";
+import Slider from 'react-slick';
 
 
 function GetAdvertisement({ togglePage, id }) {
@@ -12,16 +14,7 @@ function GetAdvertisement({ togglePage, id }) {
     const [status, setStatus] = useState('');
     const [location, setLocation] = useState('');
 
-    const photos = [
-        {
-          url: config.apiUrl + '/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NSwicHVyIjoiYmxvYl9pZCJ9fQ==--3cf45e7646dbd7aa6e67aec33de7967d6441d751/image_2024-12-07_21-42-09.png',
-          caption: 'Slide 1'
-        },
-        {
-          url: config.apiUrl + "/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6NiwicHVyIjoiYmxvYl9pZCJ9fQ==--a217b394fd97cdd54b2feb6b61ee90096880c50d/photo_2024-11-30_23-06-35.jpg",
-          caption: 'Slide 2'
-        }
-      ];
+    const [photos, setPhotos] = useState([]);
 
 
     useEffect(() => {
@@ -38,7 +31,7 @@ function GetAdvertisement({ togglePage, id }) {
                 setKind(result.advertisement.kind);
                 setStatus(result.advertisement.status);
                 setLocation(result.advertisement.location);
-                // alert(JSON.stringify(result));
+                setPhotos(result.photos);
               } catch (error) {
                 alert('ERROR url : ' + url);
               }
@@ -47,20 +40,13 @@ function GetAdvertisement({ togglePage, id }) {
         fetchData();
     }, []);
 
-    const spanStyle = {
-        padding: '20px',
-        background: '#efefef',
-        color: '#000000'
-      }
-      
-      const divStyle = {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundSize: 'cover',
-        height: '400px',
-        width: '400px',
-      }
+    const settings = {
+      dots: true,
+      infinite: false,
+      speed: 500,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+    };
 
     return (
         <div className="GetAdvertisement">
@@ -69,15 +55,13 @@ function GetAdvertisement({ togglePage, id }) {
                 <h1 id="get-advertisement-title">{title}</h1>
                 <h2>местоположение : {location}</h2>
                 <div id="get-advertisement-photos">
-                {/* <Slide>
-                    {photos.map((slideImage, index)=> (
-                        <div key={index}>
-                            <div style={{ ...divStyle, 'backgroundColor': 'black' }}>
-                                <span style={spanStyle}>{slideImage.caption}</span>
-                            </div>
-                        </div>
-                ))} 
-                </Slide> */}
+                  <Slider {...settings}>
+                    {photos.map((image, index) => (
+                      <div key={index}>
+                        <img src={image} alt={`Slide ${index}`} style={{ margin: '0px auto 0px auto', maxHeight: '300px', height: 'auto', maxWidth: '80%', width: 'auto', objectFit: "cover"}} />
+                      </div>
+                    ))}
+                  </Slider>
                 </div>
                 <div id="get-advertisement-description">
                     <p>{description}</p>

@@ -32,12 +32,22 @@
 }
 
 #get-advertisement-photos {
-    max-width: 95%; /* Убедитесь, что контейнер слайдера занимает всю ширину родителя */
-    overflow: hidden; /* Скрыть переполнение, если оно есть */
-    background-color: aquamarine;
+    width: 75%; /* Убедитесь, что контейнер слайдера занимает всю ширину родителя */
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
 }
+
+#get-advertisement-photos img:focus{
+    border-style: none;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  background-color: black; /* Change this to your desired color */
+  border-radius: 100%;
+  padding: 1px;
+}
+
 
 .get-advertisement-slider-image {
     width: 100px; /* Изображение занимает всю ширину контейнера */

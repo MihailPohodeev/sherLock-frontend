@@ -57,7 +57,12 @@ function FilterPage({ togglePage, actionFunction }) {
         <div className='FilterPage'>
             <div id="filter-page-toolbar">
                 <button id="filter-page-filter-button">фильтр</button>
-                <input id="filter-page-search" placeholder='найти...'></input>
+                <div id="filter-page-search-container">
+                    <input id="filter-page-search" placeholder='найти...'></input>
+                    <div id="filter-page-search-button">
+                        <div></div>
+                    </div>
+                </div>
             </div>
             <div id="filter-page-advs">
                 {advForms}
