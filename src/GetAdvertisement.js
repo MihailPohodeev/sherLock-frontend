@@ -13,9 +13,9 @@ function GetAdvertisement({ togglePage, id }) {
     const [kind, setKind] = useState('');
     const [status, setStatus] = useState('');
     const [location, setLocation] = useState('');
-
+    const [nameSurname, setNameSurname] = useState('');
     const [photos, setPhotos] = useState([]);
-
+    const [avatarURL, setAvatarURL] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,6 +32,9 @@ function GetAdvertisement({ togglePage, id }) {
                 setStatus(result.advertisement.status);
                 setLocation(result.advertisement.location);
                 setPhotos(result.photos);
+                setNameSurname(result.owner.name + ' ' + result.owner.surname);
+                setAvatarURL(result.owner.avatar);
+                // alert(JSON.stringify(result));
               } catch (error) {
                 alert('ERROR url : ' + url);
               }
@@ -68,7 +71,15 @@ function GetAdvertisement({ togglePage, id }) {
                 </div>
             </div>
             <div id='get-advertisement-back-button' onClick={() => togglePage(mainPageState.filter)}></div>
-            <button id="get-advertisement-connect-button">связаться с продавцом</button>
+            <div id='get-advertisement-connect-container'>
+              <div id='get-advertisement-connect-person-container'>
+                <div id='get-advertisement-connect-person-avatar' style={{backgroundImage: `url(${avatarURL})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}}></div>
+                <div id='get-advertisement-connect-person-name-surname'>
+                  <p>{nameSurname}</p>
+                </div>
+              </div>
+              <button id="get-advertisement-connect-button">связаться с пользователем</button>
+            </div>
             <div style={{height: '50px'}}></div>
         </div>
     );

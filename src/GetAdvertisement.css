@@ -100,9 +100,42 @@
     border-radius: 15px;
     height: 35px;
     cursor: pointer;
+    margin: 20px;
 }
 
 #get-advertisement-connect-button:hover
 {
     background-color: rgb(20, 20, 20);
+}
+
+#get-advertisement-connect-container
+{
+    width: 75%;
+    background-color: rgb(216, 216, 216);
+    border-radius: 15px;
+    margin: 10px auto 0px auto;
+}
+
+#get-advertisement-connect-person-container
+{
+    width: 200px;
+    min-width: 75%;
+    margin: 20px auto 0px auto;
+    display: flex;
+    flex-direction: row;
+}
+
+#get-advertisement-connect-person-avatar
+{
+    width: 75px;
+    height: 75px;
+    background-color: aquamarine;
+    border-radius: 100%;
+}
+
+#get-advertisement-connect-person-name-surname
+{
+    margin: auto 25px auto 25px;
+    font-family: 'YaFont';
+    font-size: 20px;
 }
