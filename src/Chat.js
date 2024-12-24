@@ -4,17 +4,17 @@ import MessageBox from './message';
 import config from './config';
 // import { useParams } from 'react-router-dom';
 
-const Chat = ({ channel, userID, advId }) => {
-  const [messages, setMessages] = useState([]);
+const Chat = ({ channel, userID, advId, messages }) => {
   const [input, setInput] = useState('');
   const [toID, setToID] = useState(0);
+  const [myMessages, setMyMessages] = useState([]);
 
   const sendMessage = () => {
     if (input.trim()) {
       const str = JSON.stringify({message: input, myID: userID, toID: toID, advertisementID: advId });
       channel.current.sendMessage(str);
       setInput('');
-      setMessages([...messages, {content: input, whose: 'my'}]);
+      setMyMessages([...myMessages, {content: input, whose: 'my'}]);
     }
   };
 
@@ -23,12 +23,23 @@ const Chat = ({ channel, userID, advId }) => {
     // const currentTime = new Date();
     return(
       <div className="messages-list">
-        {messages.map((msg, index) => (
-          <MessageBox key={index} content={msg.content} time={"currentTime"}/>
+        {myMessages.map((msg, index) => (
+          <MessageBox key={index} isMy={msg.whose === 'my' ? true : false} content={msg.content} time={"currentTime"}/>
         ))}
       </div>
     );
   }
+
+  useEffect(() => {messages.map((msg, index) =>
+      {
+        let str = "alien";
+        setMyMessages([]);
+        if (msg.user_id === userID)
+          str = "my";
+        setMyMessages([...myMessages, {content: msg.content, whose: str}]);
+      });
+      // alert(userID + ' ' + advId);
+   }, [messages]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -4,7 +4,7 @@ import config from './config';
 // import { useParams } from 'react-router-dom';
 // import { createConsumer } from '@rails/actioncable';
 
-const ChatsList = ({ togglePage, channel, userID, chatsList }) => {
+const ChatsList = ({ togglePage, channel, userID, chatsList, actionFunction }) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -13,16 +13,17 @@ const ChatsList = ({ togglePage, channel, userID, chatsList }) => {
     }
   }, []);
 
-  function ChatButton({ userID, advID }) {
+  function ChatButton({ usID, advID }) {
     const [fio, setFio] = useState('');
     const [avatarURL, setAvatarURL] = useState('');
 
     useEffect(() => {
       const fetchData = async () => {
+        // alert(userID + ' ' + usID + ' ' + advID);
         let url = config.apiUrl;
-        if (userID)
+        if (usID !== userID)
         {
-          url += `/users/${userID}`;
+          url += `/users/${usID}`;
         }
         else if (advID)
         {
@@ -35,24 +36,24 @@ const ChatsList = ({ togglePage, channel, userID, chatsList }) => {
             }
             const result = await response.json();
             // alert(JSON.stringify(result));
-            if (userID)
+            if (usID !== userID)
             {
               setFio(result.surname + ' ' + result.name);
               setAvatarURL(result.avatar);
             }
-            if (advID)
+            else
             {
               setFio(result.owner.surname + ' ' + result.owner.name);
               setAvatarURL(result.owner.avatar);
             }
           } catch (error) {
-            alert('ERROR url : ' + url);
+            alert('ERROR url : ' + url + ' ' + error.message);
           }
       };
       fetchData();
     }, [])
     return (
-        <div className="ChatButton">
+        <div className="ChatButton" onClick={() => actionFunction(usID, advID)}>
             <div className="chat-button-avatar" style={{backgroundImage: `url(${avatarURL})`}}></div>
             <div className="chat-button-container">
               <p>{fio}</p>
@@ -66,7 +67,7 @@ const ChatsList = ({ togglePage, channel, userID, chatsList }) => {
     return(
       <div className="AllChatButtonsForm">
         {data.map((x, index) => (
-            x.user_id === userID ? <ChatButton advID={x.advertisement_id}/> : <ChatButton userID={x.user_id}/>
+            <ChatButton usID={x.user_id} advID={x.advertisement_id}/> 
         ))}
       </div>
     );
@@ -75,6 +76,7 @@ const ChatsList = ({ togglePage, channel, userID, chatsList }) => {
   useEffect(() => {
     if (chatsList.length > 0)
       setData(chatsList);
+    // alert(JSON.stringify(chatsList));
   }, [chatsList]);
 
   return (

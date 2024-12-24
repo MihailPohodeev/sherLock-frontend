@@ -3,9 +3,9 @@ import { pageState } from './pageState';
 import config from './config';
 import './message.css'
 
-function MessageBox({ content, time }) {
+function MessageBox({ content, isMy, time }) {
     return (
-        <div className="MessageBody">
+        <div className="MessageBody" style={{backgroundColor: isMy ? 'black' : 'gray'}}>
             <p className="message-body-content">{content}</p>
         </div>
     );

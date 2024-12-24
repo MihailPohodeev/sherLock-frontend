@@ -21,6 +21,7 @@ function MainPage({ togglePage }) {
     const cable = createConsumer('ws://87.117.38.106:2999/cable');
     const chatChannelRef = useRef(null);
     const [chatList, setChatList] = useState([]);
+    const [messages, setMessages] = useState([]);
     
 
     const handleAvatarClick = (event) =>
@@ -73,6 +74,13 @@ function MainPage({ togglePage }) {
                     // alert('message' + ' ' + JSON.stringify(data.body));
                     this.perform('get_my_chats', {userID: usr.id});
                 }
+
+                if (data.title === 'list_of_messages')
+                {
+                    alert(JSON.stringify(messages));
+                    alert(JSON.stringify(data.body));
+                    setMessages(data.body);
+                }
             },
             sendMessage(message)
             {
@@ -90,7 +98,7 @@ function MainPage({ togglePage }) {
         }
     
         return () => {chatChannelRef.current.unsubscribe()};
-      }, []);
+      }, [userID, advID]);
 
     const handleToFilter = () =>
     {
@@ -139,6 +147,14 @@ function MainPage({ togglePage }) {
         setShowMainMenu(false);
     }
 
+    const handlePickChat = (usId, adId) =>
+    {
+        // alert(usId + ' ' + adId);
+        setUserID(usId);
+        setAdvID(adId);
+        setCurrentMainPage(mainPageState.chat);
+    }
+
     const profileMenu = () => {
         return (
             <div id="main-page-profile-menu" ref={menu}>
@@ -182,11 +198,11 @@ function MainPage({ togglePage }) {
                 : currentMainPage === mainPageState.editAdv ?
                 (< EditAdvertisement togglePage={toggleMainPage} />)
                 : currentMainPage === mainPageState.chatsList ?
-                (< ChatsList togglePage={toggleMainPage} channel={chatChannelRef} userID={userID} chatsList={chatList}/>)
+                (< ChatsList togglePage={toggleMainPage} channel={chatChannelRef} userID={userID} chatsList={chatList} actionFunction={handlePickChat}/>)
                 : currentMainPage === mainPageState.getAdv ?
                 (< GetAdvertisement togglePage={toggleMainPage} actionFunction={openChat} id={advID}/>)
                 : currentMainPage === mainPageState.chat ?
-                (< Chat togglePage={toggleMainPage} channel={chatChannelRef} userID={userID} advId={advID}/>)
+                (< Chat togglePage={toggleMainPage} channel={chatChannelRef} userID={userID} advId={advID} messages={messages}/>)
                 : null
                 }
             </div>
