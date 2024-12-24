@@ -1,7 +1,8 @@
 .ChatsListBody{
   margin-top: 100px;
-  width: 50%;
-  min-height: 60vh;
+  width: 60%;
+  min-width: 600px;
+  /* min-height: 60vh; */
   background-color: white;
   border-radius: 15px;
   border-color: black;
@@ -19,6 +20,65 @@
 {
     margin: 0px auto 0px auto;
     width: 90%;
-    background-color: aquamarine;
     min-height: 100px;
+}
+
+.ChatButton
+{
+  width: 90%;
+  height: 75px;
+  border-width: 3px;
+  border-color: black;
+  border-style: solid;
+  margin: 0px auto 10px auto;
+  display: flex;
+  flex-direction: row;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.ChatButton:hover
+{
+  background-color: rgb(225, 225, 225);
+}
+
+.ChatButton:active
+{
+  background-color: rgb(200, 200, 200);
+}
+
+.chat-button-avatar
+{
+  width: 70px;
+  height: 70px;
+  margin: auto 7px auto 7px;
+  border-radius: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.chat-button-container
+{
+  width: 50%;
+  height: 70px;
+  margin: auto 7px auto 7px;
+  text-align: center;
+  font-family: 'YaFont';
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+}
+
+.AllChatButtonsForm
+{
+  width: 100%;
+}
+
+@media (max-width: 600px)
+{
+  .ChatsListBody
+  {
+    min-width: 95%;
+  }
 }

@@ -1,7 +1,8 @@
 .ChatBody
 {
   margin-top: 100px;
-  width: 50%;
+  width: 60%;
+  min-width: 600px;
   min-height: 60vh;
   background-color: white;
   border-radius: 15px;
@@ -79,6 +80,6 @@
 {
   .ChatBody
   {
-    width: 95%;
+    min-width: 95%;
   }
 }

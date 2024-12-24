@@ -1,61 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import './Chat.css';
 import MessageBox from './message';
+import config from './config';
 // import { useParams } from 'react-router-dom';
-import { createConsumer } from '@rails/actioncable';
 
-const Chat = ({ advId }) => {
+const Chat = ({ channel, userID, advId }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const cable = createConsumer('ws://localhost:2999/cable');
-  const [userID, setUserID] = useState(-1);
-
-  useEffect(() => {
-    const user = localStorage.getItem('naxodka-user-data');
-    if (user !== null)
-      {  
-        const usr = JSON.parse(user);
-        setUserID(usr.id);
-    }
-    else
-    {
-      ;
-    }
-
-    const chatChannel = cable.subscriptions.create({channel: 'ChatChannel', user_id: userID}, {
-      received(data) {
-        setMessages((prevMessages) => [...prevMessages, data.message]);
-      },
-      sendMessage(message) {
-        this.perform('receive', {message} );
-      }
-    });
-
-    return () => {
-      chatChannel.unsubscribe();
-    };
-  }, [cable]);
+  const [toID, setToID] = useState(0);
 
   const sendMessage = () => {
     if (input.trim()) {
-      const str = JSON.stringify({message: input, userID: userID, advertisementID: advId });
-      cable.subscriptions.subscriptions[0].sendMessage(str);
+      const str = JSON.stringify({message: input, myID: userID, toID: toID, advertisementID: advId });
+      channel.current.sendMessage(str);
       setInput('');
-      setMessages(messages.push({content: input, whose: 'my'}));
+      setMessages([...messages, {content: input, whose: 'my'}]);
     }
   };
 
   const Msgs = () =>
   {
-    const currentTime = new Date();
+    // const currentTime = new Date();
     return(
       <div className="messages-list">
-      {messages.map((msg, index) => (
-        <MessageBox key={index} message={msg.content} time={currentTime}/>
-      ))}
+        {messages.map((msg, index) => (
+          <MessageBox key={index} content={msg.content} time={"currentTime"}/>
+        ))}
       </div>
     );
   }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      let url = config.apiUrl + `/advertisements/${advId}`;
+      try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          // alert(JSON.stringify(result));
+          setToID(result.owner.id);
+        } catch (error) {
+          alert('ERROR url : ' + url);
+        }
+        channel.current.getMessages(userID, advId);
+    };
+    fetchData();    
+  }, []);
 
   return (
     <div className="ChatBody">

@@ -9,6 +9,7 @@ import EditAdvertisement from './EditAdvertisement';
 import AboutUs from './AboutUs'
 import Chat from './Chat'
 import ChatsList from './ChatsList';
+import { createConsumer } from '@rails/actioncable';
 
 function MainPage({ togglePage }) {
     const [showMenu, setShowMenu] = useState(false);
@@ -16,7 +17,11 @@ function MainPage({ togglePage }) {
     const [currentMainPage, setCurrentMainPage] = useState(mainPageState.filter);
     const [avatarURL, setAvatarURL] = useState('https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg');
     const [advID, setAdvID] = useState(0);    
-    const [isConnected, setIsConnected] = useState(false);
+    const [userID, setUserID] = useState(0);
+    const cable = createConsumer('ws://87.117.38.106:2999/cable');
+    const chatChannelRef = useRef(null);
+    const [chatList, setChatList] = useState([]);
+    
 
     const handleAvatarClick = (event) =>
     {
@@ -34,6 +39,13 @@ function MainPage({ togglePage }) {
     };
 
     useEffect(() => {
+        document.addEventListener('click', handleClickOutsideMenu);
+        return () => {
+            document.removeEventListener('click', handleClickOutsideMenu);
+        };
+    }, []);
+
+    useEffect(() => {
         const user = localStorage.getItem('naxodka-user-data');
         if (user !== null)
         {
@@ -43,13 +55,42 @@ function MainPage({ togglePage }) {
             {
                 setAvatarURL(usr.avatar);
             }
-        }
+            setUserID(usr.id);
+            chatChannelRef.current = cable.subscriptions.create({channel: 'ChatChannel', user_id: usr.id}, {
+            received(data)
+            {
+                // alert(JSON.stringify(data.body) + ' ' + currentMainPage);
+                // setMessages((prevMessages) => [...prevMessages, data.message]);
+                if (data.title === 'chats')
+                {
+                    // alert('chats' + ' ' + JSON.stringify(data.body));
+                    setChatList(data.body);
+                    // alert(JSON.stringify(chatsList));
+                }
 
-        document.addEventListener('click', handleClickOutsideMenu);
-        return () => {
-            document.removeEventListener('click', handleClickOutsideMenu);
-        };
-    }, []);
+                if (data.title === 'message')
+                {
+                    // alert('message' + ' ' + JSON.stringify(data.body));
+                    this.perform('get_my_chats', {userID: usr.id});
+                }
+            },
+            sendMessage(message)
+            {
+                this.perform('receive', {message} );
+            },
+            getChats(userID)
+            {
+                this.perform('get_my_chats', {userID});
+            },
+            getMessages(userID, advID)
+            {
+                this.perform('get_messages', {userID: userID, advertisementID: advID});
+            }
+            });
+        }
+    
+        return () => {chatChannelRef.current.unsubscribe()};
+      }, []);
 
     const handleToFilter = () =>
     {
@@ -141,11 +182,11 @@ function MainPage({ togglePage }) {
                 : currentMainPage === mainPageState.editAdv ?
                 (< EditAdvertisement togglePage={toggleMainPage} />)
                 : currentMainPage === mainPageState.chatsList ?
-                (< ChatsList togglePage={toggleMainPage}/>)
+                (< ChatsList togglePage={toggleMainPage} channel={chatChannelRef} userID={userID} chatsList={chatList}/>)
                 : currentMainPage === mainPageState.getAdv ?
                 (< GetAdvertisement togglePage={toggleMainPage} actionFunction={openChat} id={advID}/>)
                 : currentMainPage === mainPageState.chat ?
-                (< Chat togglePage={toggleMainPage} advId={advID}/>)
+                (< Chat togglePage={toggleMainPage} channel={chatChannelRef} userID={userID} advId={advID}/>)
                 : null
                 }
             </div>
@@ -161,9 +202,9 @@ function MainPage({ togglePage }) {
                     <img onClick={handleAvatarClick} ref={avatar} id="main-page-avatar" Alt="Avatar" src={avatarURL}></img>
                 </div>
             </header>
-            <div id="main-page-bikini-bottom">
+            {/* <div id="main-page-bikini-bottom">
                 <p>2024. Все права незащищены</p>
-            </div>
+            </div> */}
             { showMainMenu && <div id="main-page-header-phone-container">
                     <p id="main-page-button-phone-main" onClick={handleToFilter}>Главная</p>
                     <p id="main-page-button-phone-my-advs" onClick={handleToMineAdvs}>Мои объявления</p>
