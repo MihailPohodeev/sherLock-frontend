@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick-theme.css";
 import Slider from 'react-slick';
 
 
-function GetAdvertisement({ togglePage, id }) {
+function GetAdvertisement({ togglePage, actionFunction, id }) {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [kind, setKind] = useState('');
@@ -78,7 +78,7 @@ function GetAdvertisement({ togglePage, id }) {
                   <p>{nameSurname}</p>
                 </div>
               </div>
-              <button id="get-advertisement-connect-button">связаться с пользователем</button>
+              <button id="get-advertisement-connect-button" onClick={() => actionFunction(id)} >связаться с пользователем</button>
             </div>
             <div style={{height: '50px'}}></div>
         </div>

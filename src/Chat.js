@@ -1,78 +1,74 @@
 import React, { useState, useEffect } from 'react';
 import './Chat.css';
-import { useParams } from 'react-router-dom';
+import MessageBox from './message';
+// import { useParams } from 'react-router-dom';
 import { createConsumer } from '@rails/actioncable';
 
-const Chat = ({ userId }) => {
-  const { chatId } = useParams();
+const Chat = ({ advId }) => {
   const [messages, setMessages] = useState([]);
-  const [content, setContent] = useState('');
+  const [input, setInput] = useState('');
+  const cable = createConsumer('ws://localhost:2999/cable');
+  const [userID, setUserID] = useState(-1);
 
   useEffect(() => {
-    // Connect to ActionCable
-    const cable = createConsumer('ws://localhost:3000/cable');
+    const user = localStorage.getItem('naxodka-user-data');
+    if (user !== null)
+      {  
+        const usr = JSON.parse(user);
+        setUserID(usr.id);
+    }
+    else
+    {
+      ;
+    }
 
-    const chatChannel = cable.subscriptions.create(
-      { channel: 'ChatChannel', chat_id: chatId },
-      {
-        received(data) {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { user: { name: data.user }, content: data.message },
-          ]);
-        },
+    const chatChannel = cable.subscriptions.create({channel: 'ChatChannel', user_id: userID}, {
+      received(data) {
+        setMessages((prevMessages) => [...prevMessages, data.message]);
+      },
+      sendMessage(message) {
+        this.perform('receive', {message} );
       }
-    );
-
-    // Fetch initial messages
-    const fetchMessages = async () => {
-      const response = await fetch(`/api/chats/${chatId}`);
-      const data = await response.json();
-      setMessages(data.messages);
-    };
-
-    fetchMessages();
+    });
 
     return () => {
       chatChannel.unsubscribe();
     };
-  }, [chatId]);
+  }, [cable]);
 
-  const handleSendMessage = async (e) => {
-    e.preventDefault();
-    if (!content) return;
-
-    const response = await fetch(`/api/chats/${chatId}/messages`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ user_id: userId, content }),
-    });
-
-    if (response.ok) {
-      setContent('');
+  const sendMessage = () => {
+    if (input.trim()) {
+      const str = JSON.stringify({message: input, userID: userID, advertisementID: advId });
+      cable.subscriptions.subscriptions[0].sendMessage(str);
+      setInput('');
+      setMessages(messages.push({content: input, whose: 'my'}));
     }
   };
 
-  return (
-    <div className="chat-container">
-      <div className="messages">
-        {messages.map((message, index) => (
-          <div key={index} className="message">
-            <strong>{message.user.name}:</strong> {message.content}
-          </div>
-        ))}
+  const Msgs = () =>
+  {
+    const currentTime = new Date();
+    return(
+      <div className="messages-list">
+      {messages.map((msg, index) => (
+        <MessageBox key={index} message={msg.content} time={currentTime}/>
+      ))}
       </div>
-      <form onSubmit={handleSendMessage} className="message-form">
-        <input
-          type="text"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          placeholder="Type your message..."
-        />
-        <button type="submit">Send</button>
-      </form>
+    );
+  }
+
+  return (
+    <div className="ChatBody">
+      <div id="chat-messages-field-container">
+        <Msgs/>
+      </div>
+      <div id='chat-container'>
+        <input id="chat-input" placeholder='введите сообщение...'
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        ></input>
+        <div id="chat-send" onClick={sendMessage}></div>
+      </div>
     </div>
   );
 };

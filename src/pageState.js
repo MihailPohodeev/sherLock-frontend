@@ -13,4 +13,6 @@ export const mainPageState = {
   about: 'about',
   editAdv: 'editAdv',
   getAdv: 'getAdv',
+  chat: 'chat',
+  chatsList: 'chatsList',
 }

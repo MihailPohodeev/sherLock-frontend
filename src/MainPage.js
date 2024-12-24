@@ -7,13 +7,16 @@ import MyAdvertisements from './MyAdvertisements';
 import FilterPage from './FilterPage';
 import EditAdvertisement from './EditAdvertisement';
 import AboutUs from './AboutUs'
+import Chat from './Chat'
+import ChatsList from './ChatsList';
 
 function MainPage({ togglePage }) {
     const [showMenu, setShowMenu] = useState(false);
     const [showMainMenu, setShowMainMenu] = useState(false);
     const [currentMainPage, setCurrentMainPage] = useState(mainPageState.filter);
     const [avatarURL, setAvatarURL] = useState('https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg');
-    const [advID, setAdvID] = useState(0);
+    const [advID, setAdvID] = useState(0);    
+    const [isConnected, setIsConnected] = useState(false);
 
     const handleAvatarClick = (event) =>
     {
@@ -41,6 +44,7 @@ function MainPage({ togglePage }) {
                 setAvatarURL(usr.avatar);
             }
         }
+
         document.addEventListener('click', handleClickOutsideMenu);
         return () => {
             document.removeEventListener('click', handleClickOutsideMenu);
@@ -88,11 +92,18 @@ function MainPage({ togglePage }) {
         setShowMainMenu(!showMainMenu);
     }
 
+    const handleGoToChats = () =>
+    {
+        setCurrentMainPage(mainPageState.chatsList);
+        setShowMainMenu(false);
+    }
+
     const profileMenu = () => {
         return (
             <div id="main-page-profile-menu" ref={menu}>
                 <div id='main-page-profile-container'>
                     <button id='main-page-profile-edit-button' onClick={handleEditProfile}>редактировать профиль...</button>
+                    <button id='main-page-profile-chats' onClick={handleGoToChats}>чаты</button>
                     <button id='main-page-profile-sign-out-button' onClick={handleSignOut} >Выход...</button>
                 </div>
                 <div style={{height: '20px'}}></div>
@@ -110,6 +121,12 @@ function MainPage({ togglePage }) {
         setCurrentMainPage(mainPageState.getAdv);
     }
 
+    const openChat = (id) =>
+    {
+        setAdvID(id);
+        setCurrentMainPage(mainPageState.chat);
+    }
+
     return (
         <div id="MainPage">
              <div id="main-page-main">
@@ -123,8 +140,12 @@ function MainPage({ togglePage }) {
                 (< AboutUs />)
                 : currentMainPage === mainPageState.editAdv ?
                 (< EditAdvertisement togglePage={toggleMainPage} />)
+                : currentMainPage === mainPageState.chatsList ?
+                (< ChatsList togglePage={toggleMainPage}/>)
                 : currentMainPage === mainPageState.getAdv ?
-                (< GetAdvertisement togglePage={toggleMainPage} id={advID}/>)
+                (< GetAdvertisement togglePage={toggleMainPage} actionFunction={openChat} id={advID}/>)
+                : currentMainPage === mainPageState.chat ?
+                (< Chat togglePage={toggleMainPage} advId={advID}/>)
                 : null
                 }
             </div>

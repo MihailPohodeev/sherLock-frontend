@@ -1,48 +1,84 @@
-.chat-container {
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    max-width: 400px;
-    margin: auto;
-    background-color: #f9f9f9;
+.ChatBody
+{
+  margin-top: 100px;
+  width: 50%;
+  min-height: 60vh;
+  background-color: white;
+  border-radius: 15px;
+  border-color: black;
+  border-style: solid;
+  border-width: 3px;
+  position: relative;
+}
+
+#chat-container
+{
+  display: flex;
+  flex-direction: row;
+  height: 50px;
+  justify-content: space-evenly;
+  width: 100%;
+  margin: 0px auto 0px auto;
+  position: absolute;
+  bottom: 15px;
+}
+
+#chat-input
+{
+  width: 75%;
+  border-radius: 15px;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
+  padding-left: 25px;
+  font-family: 'YaFont';
+  font-size: 16px;
+  font-weight: bold;
+}
+
+#chat-input::placeholder
+{
+  padding-left: 25px;
+  font-family: 'YaFont';
+  font-size: 16px;
+  font-weight: bold;
+  color: gray;
+}
+
+#chat-send
+{
+  width: 50px;
+  height: 50px;
+  background-color: black;
+  border-radius: 100%;
+  background-image: url('./send-message-logo.svg');
+  background-repeat: no-repeat;
+  background-size: 70% 70%;
+  background-position: 5px 10px;
+  cursor: pointer;
+}
+
+#chat-send:hover
+{
+  background-color: rgb(15, 15, 15);
+}
+
+#chat-send:active
+{
+  background-color: rgb(45, 45, 45);
+}
+
+#chat-messages-field-container
+{
+  width: 90%;
+  background-color: aquamarine;
+  margin: 15px auto 0 auto;
+}
+
+@media (max-width: 600px)
+{
+  .ChatBody
+  {
+    width: 95%;
   }
-  
-  .messages {
-    max-height: 300px;
-    overflow-y: auto;
-    margin-bottom: 10px;
-    padding: 5px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-  }
-  
-  .message {
-    margin: 5px 0;
-  }
-  
-  .message-form {
-    display: flex;
-  }
-  
-  .message-form input {
-    flex: 1;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .message-form button {
-    padding: 5px 10px;
-    margin-left: 5px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-  }
-  
-  .message-form button:hover {
-    background-color: #0056b3;
-  }
-  
+}
