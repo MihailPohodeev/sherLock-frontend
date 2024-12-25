@@ -72,6 +72,8 @@
 #chat-messages-field-container
 {
   width: 90%;
+  height: 400px;
+  overflow: scroll;
   background-color: aquamarine;
   margin: 15px auto 0 auto;
 }

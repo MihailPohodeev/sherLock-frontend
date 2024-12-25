@@ -18,11 +18,13 @@ function MainPage({ togglePage }) {
     const [avatarURL, setAvatarURL] = useState('https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg');
     const [advID, setAdvID] = useState(0);    
     const [userID, setUserID] = useState(0);
+    const [myID, setMyID] = useState(0);
     const cable = createConsumer('ws://87.117.38.106:2999/cable');
     const chatChannelRef = useRef(null);
     const [chatList, setChatList] = useState([]);
     const [messages, setMessages] = useState([]);
-    
+    const [chatID, setChatID] = useState(0);
+    const messagesRef = useRef(messages);
 
     const handleAvatarClick = (event) =>
     {
@@ -45,7 +47,6 @@ function MainPage({ togglePage }) {
             document.removeEventListener('click', handleClickOutsideMenu);
         };
     }, []);
-
     useEffect(() => {
         const user = localStorage.getItem('naxodka-user-data');
         if (user !== null)
@@ -57,6 +58,7 @@ function MainPage({ togglePage }) {
                 setAvatarURL(usr.avatar);
             }
             setUserID(usr.id);
+            setMyID(usr.id);
             chatChannelRef.current = cable.subscriptions.create({channel: 'ChatChannel', user_id: usr.id}, {
             received(data)
             {
@@ -68,37 +70,56 @@ function MainPage({ togglePage }) {
                     setChatList(data.body);
                     // alert(JSON.stringify(chatsList));
                 }
-
-                if (data.title === 'message')
+                else if (data.title === 'message')
                 {
-                    // alert('message' + ' ' + JSON.stringify(data.body));
-                    this.perform('get_my_chats', {userID: usr.id});
+                    alert(JSON.stringify(data));
+                    setMessages(prevMessages => [...prevMessages, data.body]);
+                    messagesRef.current = [...messagesRef.current, data.body];
+                    // this.perform('get_my_chats', {userID: usr.id});
                 }
-
-                if (data.title === 'list_of_messages')
+                else if (data.title === 'list_of_messages')
                 {
-                    alert(JSON.stringify(messages));
-                    alert(JSON.stringify(data.body));
+                    // alert(JSON.stringify(messages));
+                    // alert(JSON.stringify(data.body));
+                    // alert('list');
                     setMessages(data.body);
                 }
+                else if (data.title === 'current_chat')
+                {
+                    setChatID(data.body.id);
+                    // alert(data.body.id);
+                }
             },
-            sendMessage(message)
+            sendMessage(message, chat_ID, my_ID, adv_ID)
             {
-                this.perform('receive', {message} );
+                // alert(chat_ID);
+                this.perform('send_message', {content: message, chat_id: chat_ID, my_id: my_ID, adv_id: adv_ID} );
             },
-            getChats(userID)
+            createChat(myID, advID)
             {
-                this.perform('get_my_chats', {userID});
+                this.perform('get_chat_id', {my_id: myID, adv_id: advID});
             },
-            getMessages(userID, advID)
+            getFOUNDSChats(userID)
             {
-                this.perform('get_messages', {userID: userID, advertisementID: advID});
+                this.perform('get_my_founds_chats', {userID});
+            },
+            getMYADVSChats(userID)
+            {
+                this.perform('get_my_advs_chats', {userID});
+            },
+            getMessages(my_ID, chat_ID)
+            {
+                if (chat_ID !== 0)
+                {
+                    // alert('GET_MESSAGES_ ' + chatID)
+                    this.perform('get_messages', {my_id: my_ID, chat_id: chat_ID});
+                }
             }
             });
         }
     
         return () => {chatChannelRef.current.unsubscribe()};
-      }, [userID, advID]);
+      }, []);
 
     const handleToFilter = () =>
     {
@@ -147,11 +168,12 @@ function MainPage({ togglePage }) {
         setShowMainMenu(false);
     }
 
-    const handlePickChat = (usId, adId) =>
+    const handlePickChat = (chat_id, adId) =>
     {
-        // alert(usId + ' ' + adId);
-        setUserID(usId);
+        // alert(userID + ' ' + usId + ' ' + adId);
+        // alert(adId + ' ' + chat_id);
         setAdvID(adId);
+        setChatID(chat_id);
         setCurrentMainPage(mainPageState.chat);
     }
 
@@ -178,9 +200,14 @@ function MainPage({ togglePage }) {
         setCurrentMainPage(mainPageState.getAdv);
     }
 
-    const openChat = (id) =>
+    const openChat = (adv_id) =>
     {
-        setAdvID(id);
+        // alert("OPEN CHAT");
+        setAdvID(adv_id);
+        setChatID(0);
+        setTimeout(() => {
+            console.log("This message is delayed by 2 seconds");
+        }, 100);
         setCurrentMainPage(mainPageState.chat);
     }
 
@@ -202,7 +229,7 @@ function MainPage({ togglePage }) {
                 : currentMainPage === mainPageState.getAdv ?
                 (< GetAdvertisement togglePage={toggleMainPage} actionFunction={openChat} id={advID}/>)
                 : currentMainPage === mainPageState.chat ?
-                (< Chat togglePage={toggleMainPage} channel={chatChannelRef} userID={userID} advId={advID} messages={messages}/>)
+                (< Chat togglePage={toggleMainPage} channel={chatChannelRef} chatID={chatID} myID={myID} userID={userID} advId={advID} messages={messages}/>)
                 : null
                 }
             </div>

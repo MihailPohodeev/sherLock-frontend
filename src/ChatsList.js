@@ -5,15 +5,15 @@ import config from './config';
 // import { createConsumer } from '@rails/actioncable';
 
 const ChatsList = ({ togglePage, channel, userID, chatsList, actionFunction }) => {
-  const [data, setData] = useState([]);
+  const [typeOfChat, setTypeOfChat] = useState('founds');
 
   useEffect(() => {
     if (channel.current) {
-      channel.current.getChats(userID);
+      channel.current.getFOUNDSChats(userID);
     }
   }, []);
 
-  function ChatButton({ usID, advID }) {
+  function ChatButton({ usID, advID, chatID }) {
     const [fio, setFio] = useState('');
     const [avatarURL, setAvatarURL] = useState('');
 
@@ -53,7 +53,7 @@ const ChatsList = ({ togglePage, channel, userID, chatsList, actionFunction }) =
       fetchData();
     }, [])
     return (
-        <div className="ChatButton" onClick={() => actionFunction(usID, advID)}>
+        <div className="ChatButton" onClick={() => actionFunction(chatID, advID)}>
             <div className="chat-button-avatar" style={{backgroundImage: `url(${avatarURL})`}}></div>
             <div className="chat-button-container">
               <p>{fio}</p>
@@ -66,22 +66,41 @@ const ChatsList = ({ togglePage, channel, userID, chatsList, actionFunction }) =
   {
     return(
       <div className="AllChatButtonsForm">
-        {data.map((x, index) => (
-            <ChatButton usID={x.user_id} advID={x.advertisement_id}/> 
+        {chatsList.map((x, index) => (
+            <ChatButton usID={x.user_id} advID={x.advertisement_id} chatID={x.id} /> 
         ))}
       </div>
     );
   }
 
-  useEffect(() => {
-    if (chatsList.length > 0)
-      setData(chatsList);
-    // alert(JSON.stringify(chatsList));
-  }, [chatsList]);
+
+  const handleFOUNDclick = () =>
+  {
+    setTypeOfChat('founds');
+    if (channel.current) {
+      channel.current.getFOUNDSChats(userID);
+    }
+  }
+  
+  const handleMYADVSclick = () =>
+  {
+    setTypeOfChat('my-advs');
+    if (channel.current) {
+      channel.current.getMYADVSChats(userID);
+    }
+  }
 
   return (
     <div className="ChatsListBody">
       <h1 id='chats-list-title'>Чаты :</h1>
+      <div id='chats-list-choose-option'>
+        <div id='chat-list-choose-option-my-chats' onClick={handleFOUNDclick} style={{backgroundColor: typeOfChat==='founds' ? 'wheat' : 'white'}}>
+          <p>находки</p>
+        </div>
+        <div id='chat-list-choose-option-advertisements' onClick={handleMYADVSclick} handleFOUNDclick style={{backgroundColor: typeOfChat==='my-advs' ? 'wheat' : 'white'}}>
+          <p>мои объявления</p>
+        </div>
+      </div>
       <div id='chats-list-main-container'>
         <AllChatButtons />
       </div>
