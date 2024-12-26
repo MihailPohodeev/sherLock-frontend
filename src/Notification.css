@@ -1,0 +1,70 @@
+.Notification
+{
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    width: 300px;
+    height: 100px;
+    background-color: white;
+    box-shadow: 20px 20px 10px rgba(0, 0, 0, 0.8);
+    border-style: solid;
+    border-radius: 15px;
+    border-width: 3px;
+    border-color: black;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+}
+
+.Notification:hover
+{
+    transform: scale(1.02);
+}
+
+.Notification:active
+{
+    transform: scale(1);
+}
+
+#notification-avatar
+{
+    min-width: 75px;
+    min-height: 75px;
+    max-width: 75px;
+    max-height: 75px;
+    border-radius: 100%;
+    margin: auto 0px auto 20px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+}
+
+.notification-container
+{
+    width: 200px;
+    height: 80%;
+    margin: auto 0px auto 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+    font-family: 'YaFont';
+}
+
+#notification-username
+{
+    width: 100%;
+    height: 35%;
+    text-align: left;
+    vertical-align: middle;
+}
+
+#notification-content
+{
+    width: 100%;
+    height: 65%;
+    /* background-color: aqua; */
+}

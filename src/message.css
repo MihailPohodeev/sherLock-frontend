@@ -1,8 +1,18 @@
 .MessageBody
 {
-    background-color: black;
     border-radius: 15px;
     padding-left: 25px;
+    margin: 10px;
+    background-color: red;
+    display: flex;
+}
+
+.message-body-form
+{
+    border-radius: 15px;
+    padding: 5px;
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
 .message-body-content
@@ -10,5 +20,11 @@
     font-family: 'YaFont';
     font-size: 16px;
     font-weight: bold;
+    color: white;
+}
+
+.message-body-username
+{
+    font-size: 12px;
     color: white;
 }

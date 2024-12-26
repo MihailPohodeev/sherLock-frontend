@@ -104,4 +104,9 @@
   {
     min-width: 95%;
   }
+
+  #chat-list-choose-option-advertisements
+  {
+    min-width: 150px;
+  }
 }

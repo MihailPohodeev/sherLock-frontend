@@ -4,8 +4,8 @@ import config from './config';
 // import { useParams } from 'react-router-dom';
 // import { createConsumer } from '@rails/actioncable';
 
-const ChatsList = ({ togglePage, channel, userID, chatsList, actionFunction }) => {
-  const [typeOfChat, setTypeOfChat] = useState('founds');
+const ChatsList = ({ togglePage, channel, userID, chatsList, actionFunction, typeOfChat, setTypeOfChat }) => {
+  
 
   useEffect(() => {
     if (channel.current) {
@@ -16,6 +16,7 @@ const ChatsList = ({ togglePage, channel, userID, chatsList, actionFunction }) =
   function ChatButton({ usID, advID, chatID }) {
     const [fio, setFio] = useState('');
     const [avatarURL, setAvatarURL] = useState('');
+    const [alienID, setAlienID] = useState(0);
 
     useEffect(() => {
       const fetchData = async () => {
@@ -67,7 +68,7 @@ const ChatsList = ({ togglePage, channel, userID, chatsList, actionFunction }) =
     return(
       <div className="AllChatButtonsForm">
         {chatsList.map((x, index) => (
-            <ChatButton usID={x.user_id} advID={x.advertisement_id} chatID={x.id} /> 
+            <ChatButton key={index} usID={x.user_id} advID={x.advertisement_id} chatID={x.id} /> 
         ))}
       </div>
     );

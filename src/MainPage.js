@@ -9,6 +9,7 @@ import EditAdvertisement from './EditAdvertisement';
 import AboutUs from './AboutUs'
 import Chat from './Chat'
 import ChatsList from './ChatsList';
+import Notification from './Notification';
 import { createConsumer } from '@rails/actioncable';
 
 function MainPage({ togglePage }) {
@@ -19,12 +20,24 @@ function MainPage({ togglePage }) {
     const [advID, setAdvID] = useState(0);    
     const [userID, setUserID] = useState(0);
     const [myID, setMyID] = useState(0);
+    const [typeOfChat, setTypeOfChat] = useState('founds');
+    const [showNotification, setShowNotification] = useState(false);
+    const [notificationFromUserID, setNotificationFromUserID] = useState(1);
+    const [notificationJSON, setNotificationJSON] = useState(null);
     const cable = createConsumer('ws://87.117.38.106:2999/cable');
     const chatChannelRef = useRef(null);
     const [chatList, setChatList] = useState([]);
     const [messages, setMessages] = useState([]);
     const [chatID, setChatID] = useState(0);
-    const messagesRef = useRef(messages);
+    const messagesRef = useRef(null);
+    const currMainPageRef = useRef(null);
+    const currTypeOfChatRef = useRef(null);
+    const myIDRef = useRef(null);
+
+    messagesRef.current = messages;
+    currMainPageRef.current = currentMainPage;
+    currTypeOfChatRef.current = typeOfChat;
+    myIDRef.current = myID;
 
     const handleAvatarClick = (event) =>
     {
@@ -47,6 +60,18 @@ function MainPage({ togglePage }) {
             document.removeEventListener('click', handleClickOutsideMenu);
         };
     }, []);
+
+    useEffect(() => {
+        // Устанавливаем таймер на 5 секунд (5000 миллисекунд)
+        const timer = setTimeout(() => {
+            // Действие, которое нужно выполнить по истечении времени
+            setShowNotification(false);
+        }, 5000);
+
+        // Очистка таймера при размонтировании компонента
+        return () => clearTimeout(timer);
+    }, [showNotification]);
+
     useEffect(() => {
         const user = localStorage.getItem('naxodka-user-data');
         if (user !== null)
@@ -73,8 +98,23 @@ function MainPage({ togglePage }) {
                 else if (data.title === 'message')
                 {
                     alert(JSON.stringify(data));
-                    setMessages(prevMessages => [...prevMessages, data.body]);
-                    messagesRef.current = [...messagesRef.current, data.body];
+                    if (currMainPageRef.current != mainPageState.chat)
+                    {
+                        setNotificationJSON(data.body);
+                        setShowNotification(true);
+                    }
+                    if (currMainPageRef.current == mainPageState.chatsList)
+                    {
+                        if (currTypeOfChatRef.current === 'founds')
+                        {
+                            this.perform('get_my_founds_chats', {userID});
+                        }
+                        else if (currTypeOfChatRef.current === 'my-advs')
+                        {
+                            this.perform('get_my_advs_chats', {userID: myIDRef.current});
+                        }
+                    }
+                    setMessages([...messagesRef.current, data.body]);
                     // this.perform('get_my_chats', {userID: usr.id});
                 }
                 else if (data.title === 'list_of_messages')
@@ -93,6 +133,7 @@ function MainPage({ togglePage }) {
             sendMessage(message, chat_ID, my_ID, adv_ID)
             {
                 // alert(chat_ID);
+                setMessages([...messagesRef.current, {content: message, chat_id: chat_ID, user_id: my_ID}]);
                 this.perform('send_message', {content: message, chat_id: chat_ID, my_id: my_ID, adv_id: adv_ID} );
             },
             createChat(myID, advID)
@@ -225,13 +266,14 @@ function MainPage({ togglePage }) {
                 : currentMainPage === mainPageState.editAdv ?
                 (< EditAdvertisement togglePage={toggleMainPage} />)
                 : currentMainPage === mainPageState.chatsList ?
-                (< ChatsList togglePage={toggleMainPage} channel={chatChannelRef} userID={userID} chatsList={chatList} actionFunction={handlePickChat}/>)
+                (< ChatsList togglePage={toggleMainPage} channel={chatChannelRef} userID={userID} chatsList={chatList} actionFunction={handlePickChat} typeOfChat={typeOfChat} setTypeOfChat={setTypeOfChat}/>)
                 : currentMainPage === mainPageState.getAdv ?
                 (< GetAdvertisement togglePage={toggleMainPage} actionFunction={openChat} id={advID}/>)
                 : currentMainPage === mainPageState.chat ?
                 (< Chat togglePage={toggleMainPage} channel={chatChannelRef} chatID={chatID} myID={myID} userID={userID} advId={advID} messages={messages}/>)
                 : null
                 }
+                { showNotification ? <Notification notifJSON={notificationJSON} actionFunction={handlePickChat}/> : null}
             </div>
             <header id="main-page-header">
                 <div id="main-page-retrieve-menu" onClick={handleShowMenu}></div>
