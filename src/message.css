@@ -2,8 +2,8 @@
 {
     border-radius: 15px;
     padding-left: 25px;
+    padding-right: 25px;
     margin: 10px;
-    background-color: red;
     display: flex;
 }
 

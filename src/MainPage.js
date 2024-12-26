@@ -22,7 +22,6 @@ function MainPage({ togglePage }) {
     const [myID, setMyID] = useState(0);
     const [typeOfChat, setTypeOfChat] = useState('founds');
     const [showNotification, setShowNotification] = useState(false);
-    const [notificationFromUserID, setNotificationFromUserID] = useState(1);
     const [notificationJSON, setNotificationJSON] = useState(null);
     const cable = createConsumer('ws://87.117.38.106:2999/cable');
     const chatChannelRef = useRef(null);
@@ -97,7 +96,6 @@ function MainPage({ togglePage }) {
                 }
                 else if (data.title === 'message')
                 {
-                    alert(JSON.stringify(data));
                     if (currMainPageRef.current != mainPageState.chat)
                     {
                         setNotificationJSON(data.body);
@@ -212,11 +210,12 @@ function MainPage({ togglePage }) {
     const handlePickChat = (chat_id, adId) =>
     {
         // alert(userID + ' ' + usId + ' ' + adId);
-        // alert(adId + ' ' + chat_id);
-        setMessages([]);
+        alert(adId + ' ' + chat_id);
+        // setMessages([]);
         setAdvID(adId);
         setChatID(chat_id);
         setCurrentMainPage(mainPageState.chat);
+        setShowNotification(false);
     }
 
     const profileMenu = () => {
@@ -247,9 +246,6 @@ function MainPage({ togglePage }) {
         // alert("OPEN CHAT");
         setAdvID(adv_id);
         setChatID(0);
-        setTimeout(() => {
-            console.log("This message is delayed by 2 seconds");
-        }, 100);
         setCurrentMainPage(mainPageState.chat);
     }
 

@@ -5,7 +5,7 @@ import './message.css'
 
 function MessageBox({ content, isMy, userName, time }) {
     return (
-        <div className="MessageBody">
+        <div className="MessageBody" style={{justifyContent: isMy ? 'right' : 'left'}}>
             {/* , left: isMy ? '50%' : '0px', right: isMy ? '0px' : '50%' */}
             <div className="message-body-form" style={{backgroundColor: isMy ? 'black' : 'gray'}}>
                 <p className='message-body-username'>{userName}</p>

@@ -7,11 +7,13 @@ function Notification({ notifJSON, actionFunction }) {
     
     const [avatarURL, setAvatarURL] = useState('');
     const [userName, setUserName] = useState('');
+    const [chatID, setChatID] = useState(0);
+    const [advID, setAdvID] = useState(0);
 
     useEffect(() => {
         const fetching = async () =>
         {
-            const url = config.apiUrl + '/users/' + notifJSON.user_id;
+            let url = config.apiUrl + '/users/' + notifJSON.user_id;
             
             try {
                 const response = await fetch(url);
@@ -24,12 +26,26 @@ function Notification({ notifJSON, actionFunction }) {
             } catch (error) {
                 alert('ERROR url : ' + url + ' ' + error.message);
             }
+
+            url = config.apiUrl + '/chats/' + notifJSON.chat_id;
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                throw new Error('Network response was not ok');
+                }
+                const result = await response.json();
+                setChatID(notifJSON.chat_id);
+                setAdvID(result.advertisement_id);
+            } catch (error) {
+                alert('ERROR url : ' + url + ' ' + error.message);
+            }
+
         };
         fetching();
     }, [notifJSON]);
 
     return (
-        <div className='Notification'>
+        <div className='Notification' onClick={()=>actionFunction(chatID, advID)}>
             <div id="notification-avatar" style={{backgroundImage: `url(${avatarURL})`}}></div>
             <div className='notification-container'>
                 <div id='notification-username'>{userName}</div>

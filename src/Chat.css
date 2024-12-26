@@ -73,8 +73,9 @@
 {
   width: 90%;
   height: 400px;
-  overflow: scroll;
-  background-color: aquamarine;
+  overflow-y: auto;
+  background-color: rgb(200, 200, 200);
+  border-radius: 15px;
   margin: 15px auto 0 auto;
 }
 

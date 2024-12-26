@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import './Chat.css';
 import MessageBox from './message';
 import config from './config';
@@ -11,23 +11,26 @@ const Chat = ({ channel, chatID, myID, userID, advId, messages }) => {
   const [myName, setMyName] = useState('');
   const [companionID, setCompanionID] = useState(0);
   const [companionName, setCompanionName] = useState('');
+  const scrollRef = useRef(null);
 
   const sendMessage = () => {
     if (input.trim()) {
-      if (chatID === 0) {
-        channel.current.createChat(myID, advId);
-      }
       if (chatID === 0)
+      {
+        channel.current.createChat(myID, advId);
         setMessageQueue([...messageQueue, input]);
+        // setMyMessages([...myMessages, { content: input, whose: 'my', userName: myName }]);
+      }
       else
         channel.current.sendMessage(input, chatID, myID, advId);
       setInput('');
       setMyMessages([...myMessages, { content: input, whose: 'my', userName: myName }]);
+      scrollToBottom();
     }
   };
 
   const Msgs = () => {
-    // useEffect(() => {alert("TOTALNAYA DURKA - " + JSON.stringify(myMessages));}, []);
+    // useEffect(() => {scrollToBottom();}, []);
     return (
       <div className="messages-list">
         {myMessages.map((msg, index) => (
@@ -39,7 +42,6 @@ const Chat = ({ channel, chatID, myID, userID, advId, messages }) => {
 
   useEffect(() => {
     // alert("DURKA - " + JSON.stringify(messages));
-    setMyMessages([]);
     let arr = [];
     messages.map((msg, index) => {
       let str = "alien";
@@ -146,13 +148,17 @@ const Chat = ({ channel, chatID, myID, userID, advId, messages }) => {
       {
         channel.current.createChat(myID, advId);
       }
+      else
+      {
+        setMyMessages([]);
+      }
     } catch (error) {
       // alert('ERROR : ' + error.message);
     }
   }
 
   useEffect(() => {
-    setMyMessages([]);
+    // setMyMessages([]);
     // alert(myID + ' ' + advId + ' ' + chatID);
     channel.current.getMessages(myID, chatID);
 
@@ -164,24 +170,38 @@ const Chat = ({ channel, chatID, myID, userID, advId, messages }) => {
   }, []);
 
   useEffect(() => {
-    // channel.current.getMessages(myID, chatID);
+    // alert('chatID : ' + chatID);
     if (messageQueue.length > 0) {
       // alert('queue works');
       messageQueue.forEach(function (msg) { channel.current.sendMessage(msg, chatID, myID, advId); });
+      // setMyMessages([...myMessages, { content: input, whose: 'my', userName: myName }]);
     }
-    channel.current.getMessages(myID, chatID);
+    // channel.current.getMessages(myID, chatID);
     setNames();
   }, [chatID]);
 
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+        sendMessage();
+    }
+  };
+
+  const scrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
   return (
     <div className="ChatBody">
-      <div id="chat-messages-field-container">
+      <div id="chat-messages-field-container" ref={scrollRef}>
         <Msgs />
       </div>
       <div id='chat-container'>
         <input id="chat-input" placeholder='введите сообщение...'
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
         ></input>
         <div id="chat-send" onClick={sendMessage}></div>
       </div>
