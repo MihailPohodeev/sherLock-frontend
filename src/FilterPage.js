@@ -5,11 +5,12 @@ import config from './config';
 import AdvForm from './AdvForm';
 
 function FilterPage({ togglePage, actionFunction }) {
-    const [advData, setAdvData] = useState([]);
+    let advData = [];
     const [advForms, setAdvForms] = useState([]);
     const [showMenu, setShowMenu] = useState(false);
     const [kind, setKind] = useState('none');
     const [sort, setSort] = useState('');
+    const [text, setText] = useState('');
 
     useEffect(() =>
     {
@@ -31,7 +32,7 @@ function FilterPage({ togglePage, actionFunction }) {
                     }
                     if (advData.find(item => item.id === elem.id) == null)
                     {
-                        setAdvData(advData.push(elem));
+                        advData.push(elem);
                     }
                 }
                 console.log(advData);
@@ -109,9 +110,8 @@ function FilterPage({ togglePage, actionFunction }) {
         const params = new URLSearchParams();
         if (sort !== '') params.append('sort', sort);
         if (kind !== 'none') params.append('kind', kind);
-        // if (text) params.append('text', text);
+        if (text) params.append('text', text);
         const url = config.apiUrl + '/advertisements/filter?' + params.toString();
-        alert(url);
 
         try {
             const response = await fetch(url, {
@@ -128,22 +128,26 @@ function FilterPage({ togglePage, actionFunction }) {
     
             // Parse the JSON response
             const result = await response.json();
-            alert(JSON.stringify(result));
-            setAdvData([]);
+            // alert(JSON.stringify(result));
+            advData = [];
             for (const element of result) 
             {
-                alert(JSON.stringify(element));
+                // alert(JSON.stringify(element));
                 const elem = {
                     id: element.advertisement.id,
                     title: element.advertisement.title,
                     description: element.advertisement.description,
                     photo: element.photos[0],
                 }
+                // alert('start advData set');
                 if (advData.find(item => item.id === elem.id) == null)
                 {
-                    setAdvData(advData.push(elem));
+                    advData.push(elem);
                 }
+                // setAdvData([...advData, elem]);
+                // setAdvData(advData.push(elem));
             }
+            // alert('POldela');
             setAdvForms(Array.from({ length: advData.length }, (_, index) => {
                 const element = advData[index]; // Get the current element
                 return (
@@ -158,10 +162,14 @@ function FilterPage({ togglePage, actionFunction }) {
                 );
             }));
         } catch (error) {
-            alert('Error fetching advertisements : ', error.message);
+            // alert('Error fetching advertisements : ', error.message);
         }
         setShowMenu(false);
     }
+
+    // useEffect(() => {
+        
+    // }, [advData]);
 
     function filterMenu()
     {
@@ -194,7 +202,7 @@ function FilterPage({ togglePage, actionFunction }) {
             <div id="filter-page-toolbar">
                 <button id="filter-page-filter-button" ref={buttonFilter} onClick={() => setShowMenu(!showMenu)}>фильтр</button>
                 <div id="filter-page-search-container">
-                    <input id="filter-page-search" placeholder='найти...'></input>
+                    <input id="filter-page-search" placeholder='найти...' value={text} onChange={(e) => setText(e.target.value)}></input>
                     <div id="filter-page-search-button" onClick={handleFilterAdvertisements}>
                         <div></div>
                     </div>

@@ -14,7 +14,7 @@ const Chat = ({ channel, chatID, myID, userID, advId, messages }) => {
 
   const sendMessage = () => {
     if (input.trim()) {
-      if (myMessages.length === 0 && chatID === 0) {
+      if (chatID === 0) {
         channel.current.createChat(myID, advId);
       }
       if (chatID === 0)
@@ -50,91 +50,117 @@ const Chat = ({ channel, chatID, myID, userID, advId, messages }) => {
     setMyMessages(arr);
   }, [messages, myName, companionName]);
 
+  const setNames = async () => {
+
+    let anotherID;
+    try {
+      const response = await fetch(config.apiUrl + `/advertisements/${advId}`);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      // alert(JSON.stringify(result));
+      anotherID = result.owner.id;
+      // alert("anotherID : " + anotherID);
+    } catch (error) {
+      alert('ERROR message : ' + error.message);
+    }
+
+    try {
+      // alert('chat_ID : ' + chatID);
+      const response = await fetch(config.apiUrl + '/chats/' + chatID);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      // alert(JSON.stringify(result));
+      const resUsId = result.user_id;
+      if (result.user_id === myID) {
+        
+        try {
+          const response = await fetch(config.apiUrl + '/users/' + myID);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          // alert(JSON.stringify(result));
+          setMyName(result.surname + ' ' + result.name);
+        } catch (error) {
+          alert('ERROR users1 : ' + error.message);
+        }
+        try {
+          const response = await fetch(config.apiUrl + '/users/' + anotherID);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          // alert(JSON.stringify(result));
+          setCompanionName(result.surname + ' ' + result.name);
+        } catch (error) {
+          alert('ERROR users2 : ' + error.message);
+        }
+      }
+      else {
+        try {
+          const response = await fetch(config.apiUrl + '/users/' + myID);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          // alert(JSON.stringify(result));
+          setMyName(result.surname + ' ' + result.name);
+        } catch (error) {
+          alert('ERROR users3 : ' + error.message);
+        }
+        const url = config.apiUrl + '/users/' + resUsId;
+        try {
+          const response = await fetch(url);
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const result = await response.json();
+          // alert(JSON.stringify(result));
+          setCompanionName(result.surname + ' ' + result.name);
+        } catch (error) {
+          alert('ERROR users4 : ' + error.message + ' ; url : ' + url);
+        }
+      }
+    } catch (error) {
+      // alert('ERROR chat : ' + error.message);
+    }
+  };
+
+  const getChat = async () =>
+  {
+    const url = config.apiUrl + `/chats/get?user_id=${myID}&adv_id=${advId}`;
+    // alert("URL : " + url);
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+      // alert(JSON.stringify(result));
+      // alert(JSON.stringify(result));
+      if (result != null)
+      {
+        channel.current.createChat(myID, advId);
+      }
+    } catch (error) {
+      // alert('ERROR : ' + error.message);
+    }
+  }
+
   useEffect(() => {
-    alert(myID + ' ' + advId + ' ' + chatID);
+    setMyMessages([]);
+    // alert(myID + ' ' + advId + ' ' + chatID);
     channel.current.getMessages(myID, chatID);
 
-    // channel.current.getMessages(myID, chatID);
-    const fetchData = async () => {
-
-      let anotherID;
-      alert("RATATA : " + advId);
-      try {
-        const response = await fetch(config.apiUrl + `/advertisements/${advId}`);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const result = await response.json();
-        // alert(JSON.stringify(result));
-        anotherID = result.owner.id;
-        alert("anotherID : " + anotherID);
-      } catch (error) {
-        alert('ERROR message : ' + error.message);
-      }
-
-      try {
-        const response = await fetch(config.apiUrl + '/chats/' + chatID);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const result = await response.json();
-        // alert(JSON.stringify(result));
-        const resUsId = result.user_id;
-        if (result.user_id === myID) {
-          
-          try {
-            const response = await fetch(config.apiUrl + '/users/' + myID);
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            const result = await response.json();
-            // alert(JSON.stringify(result));
-            setMyName(result.surname + ' ' + result.name);
-          } catch (error) {
-            alert('ERROR users1 : ' + error.message);
-          }
-          try {
-            const response = await fetch(config.apiUrl + '/users/' + anotherID);
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            const result = await response.json();
-            // alert(JSON.stringify(result));
-            setCompanionName(result.surname + ' ' + result.name);
-          } catch (error) {
-            alert('ERROR users2 : ' + error.message);
-          }
-        }
-        else {
-          try {
-            const response = await fetch(config.apiUrl + '/users/' + myID);
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            const result = await response.json();
-            // alert(JSON.stringify(result));
-            setMyName(result.surname + ' ' + result.name);
-          } catch (error) {
-            alert('ERROR users3 : ' + error.message);
-          }
-          const url = config.apiUrl + '/users/' + resUsId;
-          try {
-            const response = await fetch(url);
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-            const result = await response.json();
-            // alert(JSON.stringify(result));
-            setCompanionName(result.surname + ' ' + result.name);
-          } catch (error) {
-            alert('ERROR users4 : ' + error.message + ' ; url : ' + url);
-          }
-        }
-      } catch (error) {
-        alert('ERROR chat : ' + error.message);
-      }
-    };
-    fetchData();
+    if (chatID === 0)
+    {
+      getChat();
+    }
+    setNames();
   }, []);
 
   useEffect(() => {
@@ -143,6 +169,8 @@ const Chat = ({ channel, chatID, myID, userID, advId, messages }) => {
       // alert('queue works');
       messageQueue.forEach(function (msg) { channel.current.sendMessage(msg, chatID, myID, advId); });
     }
+    channel.current.getMessages(myID, chatID);
+    setNames();
   }, [chatID]);
 
   return (

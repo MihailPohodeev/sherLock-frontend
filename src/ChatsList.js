@@ -8,6 +8,7 @@ const ChatsList = ({ togglePage, channel, userID, chatsList, actionFunction, typ
   
 
   useEffect(() => {
+    setTypeOfChat('founds')
     if (channel.current) {
       channel.current.getFOUNDSChats(userID);
     }

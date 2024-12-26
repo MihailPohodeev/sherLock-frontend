@@ -213,6 +213,7 @@ function MainPage({ togglePage }) {
     {
         // alert(userID + ' ' + usId + ' ' + adId);
         // alert(adId + ' ' + chat_id);
+        setMessages([]);
         setAdvID(adId);
         setChatID(chat_id);
         setCurrentMainPage(mainPageState.chat);
